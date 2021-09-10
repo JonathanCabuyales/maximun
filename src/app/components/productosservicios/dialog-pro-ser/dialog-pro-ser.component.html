@@ -1,0 +1,43 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<div mat-dialog-content class="dialog">
+    <h2>Nuevo Producto/Servicio</h2>
+    <br>
+    <div class="filaProSer">
+        <span><b>Categoria</b></span>
+      <select [(ngModel)]="nuevoProductoServicio.categoria_proser" (change)="capturar()">
+        <option value="0">Selecciona una opción</option>
+        <option value="PRODUCTO">Producto</option>
+        <option value="SERVICIO">Servicio</option>
+      </select>
+    </div>
+    <div class="filaProSer">
+        <p><b>Codigo Barras:</b></p>
+        <input matInput type="text" style="text-align: right;" class="form-control" placeholder="Codigo de Barras" [(ngModel)]="nuevoProductoServicio.codigo_proser" onmouseover="this.focus();">
+    </div>
+
+    <div class="filaProSer">
+        <p><b>Nombre:</b></p>
+        <input matInput type="text" style="text-align: right;" class="form-control" placeholder="Nomrbe Producto/Servicio" [(ngModel)]="nuevoProductoServicio.nombre_proser">
+    </div>
+
+    <div class="filaProSer">
+        <p><b>Descripción:</b></p>
+        <input matInput type="text" style="text-align: right;" class="form-control" placeholder="Descripción Producto/Servicio" [(ngModel)]="nuevoProductoServicio.descripcion_proser">
+    </div>
+
+    <div class="filaProSer">
+        <p><b>Precio:</b></p>
+        <input matInput type="number" style="text-align: right;" class="form-control" placeholder="Precio" [(ngModel)]="nuevoProductoServicio.precio_proser">
+    </div>
+    
+    <div class="filaProSer">
+        <p><b>Cantidad:</b></p>
+        <input matInput type="number" style="text-align: right;" class="form-control" placeholder="Cantidad" [(ngModel)]="nuevoProductoServicio.cantidad_proser">
+    </div>
+</div>
+<div mat-dialog-actions style="display: flex; align-items: flex-end; float: right;">
+    <button mat-button class="btn" (click)="cancelar()">Cancelar</button>
+    <button mat-button class="btn" (click)="guardar()" >Guardar</button>
+</div>
