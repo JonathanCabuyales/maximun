@@ -13,8 +13,8 @@ export class ComprasService {
   
   constructor(private http: HttpClient) { }
 
-  getAll(){
-    this.resultado = this.http.get(`${this.baseUrl}/compras/compras_get.php`);
+  getAll(compra){
+    this.resultado = this.http.post(`${this.baseUrl}/compras/compras_get.php`, JSON.stringify(compra));
     return this.resultado;
   }
 

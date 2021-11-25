@@ -8,5 +8,6 @@ export interface ProsernuevoI {
     precio_proser: number,
     cantidad_proser: number,
     cantidadfinal_proser: number,
-    created_at: Date
+    created_at: Date,
+    token?: string
 }

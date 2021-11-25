@@ -124,6 +124,14 @@ import { PerfilusuarioComponent } from './home/perfilusuario/perfilusuario.compo
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DialogeditrolComponent } from './components/empleados/dialogeditrol/dialogeditrol.component';
 import { CerrarsesionComponent } from './components/menuhorizontal/cerrarsesion/cerrarsesion.component';
+import { DialogcompraretencionComponent } from './components/compras/dialogcompraretencion/dialogcompraretencion.component';
+import { FondosComponent } from './home/fondos/fondos.component';
+import { DialogfondosComponent } from './components/fondos/dialogfondos/dialogfondos.component';
+import { DialogfondosasignarComponent } from './components/fondos/dialogfondosasignar/dialogfondosasignar.component';
+import { DialogfondosasignadosComponent } from './components/fondos/dialogfondosasignados/dialogfondosasignados.component';
+import { DialogfondosjustificacionComponent } from './components/fondos/dialogfondosjustificacion/dialogfondosjustificacion.component';
+import { DialogfondosjustificarComponent } from './components/fondos/dialogfondosjustificar/dialogfondosjustificar.component';
+import { DialogfondosjustificadosComponent } from './components/fondos/dialogfondosjustificados/dialogfondosjustificados.component';
 
 @NgModule({
   declarations: [
@@ -187,7 +195,15 @@ import { CerrarsesionComponent } from './components/menuhorizontal/cerrarsesion/
     DialogempleadoeditarComponent,
     PerfilusuarioComponent,
     DialogeditrolComponent,
-    CerrarsesionComponent
+    CerrarsesionComponent,
+    DialogcompraretencionComponent,
+    FondosComponent,
+    DialogfondosComponent,
+    DialogfondosasignarComponent,
+    DialogfondosasignadosComponent,
+    DialogfondosjustificacionComponent,
+    DialogfondosjustificarComponent,
+    DialogfondosjustificadosComponent
     ],
   imports: [
     BrowserModule,

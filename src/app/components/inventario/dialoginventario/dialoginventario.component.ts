@@ -8,13 +8,14 @@ import { ProdservService } from 'src/app/services/prodserv.service';
 import { DialogasignarempleadoComponent } from '../dialogasignarempleado/dialogasignarempleado.component';
 import { DialogProSerComponent } from '../../productosservicios/dialog-pro-ser/dialog-pro-ser.component';
 import { DialogconfirmacionComponent } from '../../productosservicios/dialogconfirmacion/dialogconfirmacion.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dialoginventario',
   templateUrl: './dialoginventario.component.html',
   styleUrls: ['./dialoginventario.component.css']
 })
-export class DialoginventarioComponent implements OnInit{
+export class DialoginventarioComponent implements OnInit {
 
   displayedColumns: string[] = ['nombre', 'categoria', 'descripcion', 'cantidad', 'precio', 'asignar'];
   dataSource: MatTableDataSource<any>;
@@ -34,12 +35,18 @@ export class DialoginventarioComponent implements OnInit{
   prodSerAct: ProsernuevoI;
   prodSerActInv: ProsernuevoI;
 
+  // variable para el token
+  token: string = '';
+
   constructor(
     private _prodser: ProdservService,
     private toastr: ToastrService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _cookie: CookieService) { }
 
   ngOnInit() {
+
+    this.token = this._cookie.get('token');
     // se cargan todos los productos y servicios de la base de datos
     this.loadProdSer();
     this.nuevoProductoServicio = {
@@ -70,13 +77,19 @@ export class DialoginventarioComponent implements OnInit{
 
       if (res != undefined) {
         this.nuevoProductoServicio = res;
+        this.nuevoProductoServicio.cantidadfinal_proser = this.nuevoProductoServicio.cantidad_proser;
+        this.nuevoProductoServicio.token = this.token;
+        // console.log(res);
+        
         this._prodser.createProdSer(this.nuevoProductoServicio).subscribe(res => {
 
-          if (res == true) {
-            this.toastSuccess("grabado");
+          if (res.data) {
+            this.toastSuccess("Registro guardado exitosamente!!!");
             this.loadProdSer();
+          }else{
+            this.toastError('No hemos podido registrar el item por favor intentalo más tarde');
           }
-          
+
         }, error => {
           this.toastError(error);
         }
@@ -131,10 +144,18 @@ export class DialoginventarioComponent implements OnInit{
   }
 
   loadProdSer() {
-    this._prodser.getAll().subscribe(res => {
-      this.productosServicios = res;
-      this.dataSource = new MatTableDataSource(this.productosServicios);
-      this.dataSource.paginator = this.paginator;
+    this._prodser.getAll(this.token).subscribe(res => {
+      
+      if (res.data.length) {
+        this.productosServicios = res.data;
+        this.dataSource = new MatTableDataSource(this.productosServicios);
+        this.dataSource.paginator = this.paginator;
+      } else {
+
+        this.toastError("No hemos encontrado registro de productos o servicios");
+
+      }
+
     });
   }
 
@@ -150,12 +171,12 @@ export class DialoginventarioComponent implements OnInit{
       if (res != undefined) {
 
         this.prodSerActInv = res;
-        this._prodser.updateProdSer(this.prodSerActInv).subscribe(res => {          
+        this._prodser.updateProdSer(this.prodSerActInv).subscribe(res => {
           if (res == true) {
             this.toastSuccess("El inventario general se ha actualizado exitosamenete!!!!!");
             this.loadProdSer();
           }
-        }, error => {          
+        }, error => {
           this.toastError(error);
         });
 
@@ -178,7 +199,7 @@ export class DialoginventarioComponent implements OnInit{
   }
 
   toastError(mensaje: string) {
-    this.toastr.error('Ha ocurrido un problema, intentelo nuevamente más tarde ' + mensaje, 'ERROR', {
+    this.toastr.error(mensaje, 'ERROR', {
       timeOut: 3000,
     });
   }

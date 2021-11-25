@@ -14,5 +14,6 @@ export interface ComprasI{
   iva_com: string,
   ICE_com: string,
   devolucionIVA: string,
-  costogasto_com: string
+  costogasto_com: string,
+  token?: string
 }

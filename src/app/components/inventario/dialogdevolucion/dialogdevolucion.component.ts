@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { InventarioI } from 'src/app/models/inventario/inventario.interface';
 import { InventarioAsigI } from 'src/app/models/inventario/inventarioAsig.interface';
@@ -18,12 +19,18 @@ export class DialogdevolucionComponent implements OnInit {
   prodSerAct: ProsernuevoI;
   inventarioUpdate: InventarioI;
 
+  // variable para el token
+  token: string = '';
+
   constructor(public dialogRef: MatDialogRef<DialogdevolucionComponent>, @Inject(MAT_DIALOG_DATA)
   public item: InventarioAsigI,
     private _inventario: InventarioService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private _cookie: CookieService) { }
 
   ngOnInit(): void {
+
+    this.token = this._cookie.get('token');
 
     this.inventarioUpdate = {
       id_inv: this.item.id_inv,
@@ -64,11 +71,14 @@ export class DialogdevolucionComponent implements OnInit {
         } else if (this.stockRecibido == this.inventarioUpdate.stockasignado_inv) {
 
           this.inventarioUpdate.stockentregado_inv = this.stockRecibido;
+          this.inventarioUpdate.token = this.token;
 
           this._inventario.updateProdSer(this.inventarioUpdate).subscribe(res => {
-            if (res == true) {
+            if (res.data) {
               this.toastSuccess("El stock de usuario se ha actualizado exitosamente!!!");
               this.dialogRef.close(this.stockRecibido);
+            } else {
+              this.toastError("No hemos podido actualizar el stock por favor intentalo nuevamente más tarde");
             }
           }, error => {
             this.toastError(error);
@@ -77,24 +87,30 @@ export class DialogdevolucionComponent implements OnInit {
         } else if (aux < parseInt(this.item.stockasignado_inv)) {
 
           this.inventarioUpdate.stockentregado_inv = this.stockRecibido + parseInt(this.item.stockentregado_inv);
+          this.inventarioUpdate.token = this.token;
 
           this._inventario.updateProdSer(this.inventarioUpdate).subscribe(res => {
-            if (res == true) {
+            if (res.data) {
               this.toastSuccess("El stock de usuario se ha actualizado exitosamente!!!");
               this.dialogRef.close(this.stockRecibido);
+            } else {
+              this.toastError("No hemos podido actualizar el stock por favor intentalo nuevamente más tarde");
             }
           }, error => {
             this.toastError(error);
           });
 
-        }else if(aux == parseInt(this.item.stockasignado_inv)){
+        } else if (aux == parseInt(this.item.stockasignado_inv)) {
 
           this.inventarioUpdate.stockentregado_inv = this.stockRecibido + parseInt(this.item.stockentregado_inv);
-          
+          this.inventarioUpdate.token = this.token;
+
           this._inventario.updateProdSer(this.inventarioUpdate).subscribe(res => {
-            if (res == true) {
+            if (res.data) {
               this.toastSuccess("El stock de usuario se ha actualizado exitosamente!!!");
               this.dialogRef.close(this.stockRecibido);
+            } else {
+              this.toastError("No hemos podido actualizar el stock por favor intentalo nuevamente más tarde");
             }
           }, error => {
             this.toastError(error);
@@ -112,7 +128,7 @@ export class DialogdevolucionComponent implements OnInit {
   }
 
   toastError(mensaje: string) {
-    this.toastr.error('Ha ocurrido un problema, intentelo nuevamente más tarde ' + mensaje, 'ERROR', {
+    this.toastr.error(mensaje, 'ERROR', {
       timeOut: 3000,
     });
   }

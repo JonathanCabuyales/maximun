@@ -23,13 +23,13 @@ export class ProdservService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(){
-    this.resultado = this.http.get(`${this.baseUrl}/productosservicios/productos_servicios_get.php`);
+  getAll(token){
+    this.resultado = this.http.post(`${this.baseUrl}/productosservicios/productos_servicios_get.php`, JSON.stringify(token));
     return this.resultado;
   }
 
-  getOne(id_proser: number){
-    this.resultado = this.http.get(`${this.baseUrl}/productosservicios/productos_servicios_getOne.php?id_proser=${id_proser}`);
+  getOne(id_proser: number, token: string){
+    this.resultado = this.http.get(`${this.baseUrl}/productosservicios/productos_servicios_getOne.php?id_proser=${id_proser}&token=${token}`);
     return this.resultado;
   }
 

@@ -22,6 +22,7 @@ export class DialogitemscompraComponent implements OnInit {
       categoria: '0',
       descripcion: '',
       cantidad: '',
+      codigobarras: '',
       precio: '',
       subtotal12: '',
       subtotal0: '',

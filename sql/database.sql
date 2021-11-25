@@ -330,6 +330,25 @@ CREATE TABLE documentos(
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+CREATE TABLE fondos(
+  id_fon INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  monto_fon FLOAT NOT NULL,
+  descripcion_fon TEXT NOT NULL,
+  fechaasignacion_fon TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE fondos_justificados(
+  id_fonjus INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_fon INT NOT NULL,
+  id_usuario INT NOT NULL,
+  detalles_fonjus TEXT NOT NULL,
+  justificado_fonjus FLOAT NOT NULL,
+  nojustificado_fonjus FLOAT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- consults para sacar el vslor de la lectura, corte y reconeccion por medidor....
 -- -- **************  LECTURAS  ****************
 -- cambir por la fecha en la que se va a realizar la consulta

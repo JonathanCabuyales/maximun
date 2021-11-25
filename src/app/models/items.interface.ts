@@ -1,6 +1,7 @@
 export interface ItemsI {
     categoria: string,
     descripcion: string,
+    codigobarras?: string,
     cantidad: string,
     precio: string,
     subtotal12: string,

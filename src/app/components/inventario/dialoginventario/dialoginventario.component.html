@@ -14,6 +14,25 @@
     <input type="text" placeholder="Buscar..." name="documentID" (keyup)="applyFilter($event.target.value)">
   </div>
 </div>
+
+<div class="row">
+  <div class="col-sm-6"></div>
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-6">
+        <span>Stock disponible: </span>
+        <div style="width: 20px; height: 20px; background: chartreuse; width: 50%;">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <span>Sin stock: </span>
+        <div style="width: 20px; height: 20px; background: rgb(255, 0, 0); width: 50%;">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
@@ -34,16 +53,27 @@
 
     <ng-container matColumnDef="cantidad">
       <th mat-header-cell *matHeaderCellDef> Stock </th>
-      <td mat-cell *matCellDef="let element" style="text-align: center; font-weight: 600; background: chartreuse;"> {{element.cantidadfinal_proser}}</td>
+      <td mat-cell *matCellDef="let element">
+
+        <div *ngIf="element.cantidadfinal_proser >= '10'" style="text-align: center; font-weight: 600; background: chartreuse;">
+          {{element.cantidadfinal_proser}}
+        </div>
+        <div *ngIf="element.cantidadfinal_proser <= '1'" style="text-align: center; font-weight: 600; background: rgb(255, 0, 0);">
+          {{element.cantidadfinal_proser}}
+        </div>
+        
+
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="precio">
       <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Precio </th>
-      <td mat-cell *matCellDef="let element" style="text-align: center; font-weight: 600;"> {{element.precio_proser | number : '1.0-2' }} $</td>
+      <td mat-cell *matCellDef="let element" style="text-align: center; font-weight: 600;"> {{element.precio_proser |
+        number : '1.0-2' }} $</td>
     </ng-container>
 
     <!-- Botones para el CURD -->
-    
+
 
     <ng-container matColumnDef="asignar">
       <th mat-header-cell *matHeaderCellDef style="text-align: center;">Asignar</th>

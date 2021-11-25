@@ -13,8 +13,8 @@ export class InventarioService {
   
   constructor(private http: HttpClient) { }
 
-  getAll(){
-    this.resultado = this.http.get(`${this.baseUrl}/inventario/inventario_get.php`);
+  getAll(token){
+    this.resultado = this.http.post(`${this.baseUrl}/inventario/inventario_get.php`, JSON.stringify(token));
     return this.resultado;
   }
 

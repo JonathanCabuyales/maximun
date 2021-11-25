@@ -43,13 +43,14 @@ export class DialogempleadosComponent implements OnInit {
     private _cookie: CookieService) { }
 
   ngOnInit(): void {
+    this.token = this._cookie.get('token');
+
     this.loadEmpleados();
 
   }
 
   loadEmpleados(){
 
-    this.token = this._cookie.get('token');
   
     this._empleado.getAllEmpleados(this.token).subscribe(res=>{      
       if(res){

@@ -32,24 +32,31 @@ export class ClientesComponent implements OnInit {
   cliente: ClienteI;
   clientes: ClienteI[];
 
+  // variable para el token
+  token: string = '';
+
   constructor(public dialog: MatDialog,
     public _cliente: ClienteserService,
     private toastr: ToastrService,
     private cookieservice: CookieService) { }
 
   ngOnInit(): void {
+    this.token = this.cookieservice.get('token');
+
     this.loadClientes();
   }
 
   loadClientes() {
-    let token = this.cookieservice.get('token');
+    this._cliente.getAll(this.token).subscribe(res => {
 
-    this._cliente.getAll(token).subscribe(res => {
-      console.log(res);
+      if(res.data){
+        this.clientes = res.data;
+        this.dataSource = new MatTableDataSource(this.clientes);
+        this.dataSource.paginator = this.paginator;
+      }else{
+        this.toastError("No hemos encontrado registros de clientes, intentalo más tarde");
+      }
       
-      this.clientes = res.data;
-      this.dataSource = new MatTableDataSource(this.clientes);
-      this.dataSource.paginator = this.paginator;
     });
 
   }
@@ -64,6 +71,7 @@ export class ClientesComponent implements OnInit {
 
   // Abrir dialogo para agregar cliente a la base de datos
   createCliente() {
+
     const dialogRef = this.dialog.open(DialogclientesComponent, {
       width: '450px'
     }
@@ -73,16 +81,17 @@ export class ClientesComponent implements OnInit {
 
       if (res != undefined) {
         this.cliente = res;
-        console.log(this.cliente);
+        this.cliente.token = this.token;
         
         this._cliente.createCliente(this.cliente).subscribe(datos => {
-          if (datos['resultado'] == 'OK') {
+          if (datos.data) {
             this.loadClientes();
             this.toastSuccess("grabado");
           }
         });
       }
     });
+
   }
 
   // abro el dialogo para editar los clientes cargando la informacion
@@ -97,9 +106,11 @@ export class ClientesComponent implements OnInit {
 
       if (res != undefined) {
         this.cliente = res;
+        this.cliente.token = this.token;
+
         this._cliente.updateCliente(this.cliente).subscribe(datos => {
           
-          if (datos['resultado'] == 'OK') {
+          if (datos.data) {
             this.loadClientes();
             this.toastSuccess("actualizado");
           }
@@ -138,11 +149,17 @@ export class ClientesComponent implements OnInit {
     });
   }
 
+  toastError(mensaje: string) {
+    this.toastr.error(mensaje, 'Error', {
+      timeOut: 3000,
+    });
+  }
+
   // funcion para filtro de busqueda
   applyFilter(filtro: string){
      filtro = filtro.trim(); // Remove whitespace
      filtro = filtro.toLowerCase(); // MatTableDataSource defaults to lowercase matches
      this.dataSource.filter = filtro;
- }
+  }
 
 }

@@ -10,6 +10,7 @@ import { ComprasService } from 'src/app/services/compras.service';
 import { ToastrService } from 'ngx-toastr';
 import { DialogitemscompraComponent } from '../dialogitemscompra/dialogitemscompra.component';
 import { DialogitemsnotaventaComponent } from '../dialogitemsnotaventa/dialogitemsnotaventa.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dialogcompras',
@@ -43,13 +44,18 @@ export class DialogcomprasComponent implements OnInit {
   showComprobante: boolean = true;
   showBorrarItems: boolean = false;
 
+  // variable para el token
+  token: string = '';
 
   constructor(public dialog: MatDialog,
     private _proser: ProdservService,
     private _compras: ComprasService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private _cookie: CookieService) { }
 
   ngOnInit(): void {
+
+    this.token = this._cookie.get('token');
 
     this.nuevoProductoServicio = {
       id_proser: 0,
@@ -114,16 +120,17 @@ export class DialogcomprasComponent implements OnInit {
 
       if (this.compra.costogasto_com == 'GASTO') {
 
-        // AQUI CONVERTIR JSON A CADENA Y VICEVERSA
+        // AQUI CONVERTIR JSON A CADENA
 
         let objeto = JSON.stringify(this.listaItems);
 
         this.compra.comceptos_com = objeto;
-
+        this.compra.token = this.token;
+        
         console.log(this.compra);
 
         this._compras.createCompra(this.compra).subscribe(res => {
-          if (res['resultado'] == 'OK') {
+          if (res.data) {
             this.toastSuccess("Compra Registrada Exitosamente!!!");
             this.borrarCompra();
             this.borrarItems();
@@ -133,14 +140,12 @@ export class DialogcomprasComponent implements OnInit {
           }
         });
 
+
+
         // console.log(this.listaItems);
-
         // AQUI CONVERTIR JSON A CADENA Y VICEVERSA
-
         // console.log(JSON.stringify(this.listaItems));
-
         // let objeto = JSON.stringify(this.productosServicios);
-
         // console.log(JSON.parse(objeto));
 
       } else if (this.compra.costogasto_com == 'COSTO') {
@@ -148,13 +153,13 @@ export class DialogcomprasComponent implements OnInit {
         let objeto = JSON.stringify(this.listaItems);
 
         this.compra.comceptos_com = objeto;
+        this.compra.token = this.token;
 
         this._compras.createCompra(this.compra).subscribe(res => {
 
-          if (res['resultado'] == 'OK') {
+          if (res.data) {
 
             console.log(this.listaItems);
-
 
             for (let i = 0; i < this.listaItems.length; i++) {
 
@@ -164,6 +169,8 @@ export class DialogcomprasComponent implements OnInit {
               this.nuevoProductoServicio.precio_proser = this.listaItems[i].precio;
               this.nuevoProductoServicio.categoria_proser = this.listaItems[i].categoria;
               this.nuevoProductoServicio.nombre_proser = this.listaItems[i].descripcion;
+              this.nuevoProductoServicio.codigo_proser = this.listaItems[i].codigobarras;
+              this.nuevoProductoServicio.token = this.token;
 
               console.log(this.nuevoProductoServicio);
 
@@ -309,6 +316,11 @@ export class DialogcomprasComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource(this.listaItems);
     }
+  }
+
+  // seccion para generar comprobantes de retencion
+  generarRetencion(){
+    
   }
 
   borrarItems() {

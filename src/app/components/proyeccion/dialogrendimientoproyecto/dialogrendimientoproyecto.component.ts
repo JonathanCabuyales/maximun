@@ -460,12 +460,14 @@ export class DialogrendimientoproyectoComponent implements OnInit {
     this.totalEmpleadosSueldos = 0;
 
     if(this.listaEmpleados.length){
+
       for (let i = 0; i < this.listaEmpleados.length; i++) {
 
         this.totalEmpleadosSueldos += parseFloat(this.listaEmpleados[i].total);
         
         this.totalTiempoProyecto = (this.totalEmpleadosSueldos * parseInt(this.tiempoProyecto)).toFixed(2);        
       }
+      
     }else{
       this.totalTiempoProyecto = '0';
       this.totalEmpleadosSueldos = 0;

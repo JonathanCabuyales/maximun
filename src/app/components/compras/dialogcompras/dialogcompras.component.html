@@ -1,10 +1,11 @@
-<div class="formcompras">
-    <div class="comprasCabecera">
+<div class="tituloFactura">
+    <h2>Compras</h2>
+    <div class="cabeceraCompra">
         <div class="row">
-            <div class="col-sm-4">
-                <br>
-                <div class="comprascomprobante">
-                    <select [(ngModel)]="compra.tipocomprobante_com" [disabled]="showComprobante"
+            <div class="col-sm-3">
+                <span class="spanFactura"><b>Tipo Comprobante: </b></span>
+
+                <select [(ngModel)]="compra.tipocomprobante_com" [disabled]="showComprobante"
                         (change)="comprobante()">
                         <option value="0">Tipo de Comprobante</option>
                         <option value="FACTURA">Factura</option>
@@ -12,26 +13,19 @@
                         <option value="COMPROBANTE RETENCION">Retención</option>
                         <option value="NOTA CREDITO">Nota de crédito</option>
                     </select>
-                </div>
             </div>
-            <div class="col-sm-4" style="display: block; margin: auto;">
-                <br>
-                <div class="row">
-
-                    <div class="col-sm-6">
-                        <input matInput type="text" class="form-control" placeholder="Proveedor"
+            <div class="col-sm-3">
+                <span class="spanFactura"><b>Nombre Proveedor: </b></span>
+                <input matInput type="text" class="form-control" placeholder="Proveedor"
                             [(ngModel)]="compra.proveedor_com">
-                    </div>
-
-                    <div class="col-sm-6">
-                        <input matInput type="text" class="form-control" placeholder="RUC Proveedor"
-                            [(ngModel)]="compra.proveedorciruc_com">
-                    </div>
-
-                </div>
             </div>
-            <div class="col-sm-4" style="display: block; margin: auto">
-                <br>
+            <div class="col-sm-3">
+                <span class="spanFactura"><b>RUC Proveedor: </b></span>
+                <input matInput type="text" class="form-control" placeholder="RUC Proveedor"
+                            [(ngModel)]="compra.proveedorciruc_com">
+            </div>
+            <div class="col-sm-3">
+                <span class="spanFactura"><b>Dirección Proveedor: </b></span>
                 <input matInput type="text" class="form-control" placeholder="Dirección Proveedor"
                     [(ngModel)]="compra.direccionproveedor_com">
             </div>
@@ -44,20 +38,23 @@
             </div>
 
             <div class="col-sm-2" style="display: block; margin: auto;">
+                <span class="spanFactura"><b>Número Serie: </b></span>
                 <input matInput type="text" class="form-control" placeholder="Número Serie"
                     [(ngModel)]="compra.serie_com">
             </div>
 
             <div class="col-sm-2" style="display: block; margin: auto;">
+                <span class="spanFactura"><b>Secuencia: </b></span>
                 <input matInput type="text" class="form-control" placeholder="Secuencia"
                     [(ngModel)]="compra.secuencia_com">
             </div>
             <div class="col-sm-2" style="display: block; margin: auto;">
+                <span class="spanFactura"><b>Aut. Sri: </b></span>
                 <input matInput type="text" class="form-control" placeholder="Aut. SRI"
                     [(ngModel)]="compra.autorizacionSRI_com">
             </div>
         </div>
-        <div class="row" style="display: block; margin: auto;">
+        <div class="row">
             <div class="col-sm-4">
                 <div class="row">
                     <div class="col-sm-8">
@@ -100,9 +97,13 @@
                 </div>
             </div>
         </div>
-        <br>
+
     </div>
-    <br>
+</div>
+<br>
+
+<div class="tituloFactura">
+
     <div class="itemscompras">
         <div class="row">
             <div class="col-sm-6">
@@ -124,6 +125,14 @@
                                 d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
                         </svg></button>
                 </div>
+                <!-- <div class="botonesVentas">
+                    <button class="btn" style="margin: 10px 10px;" (click)="generarRetencion()">Generar Retención<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                            fill="#FFFFFF">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path
+                                d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        </svg></button>
+                </div> -->
             </div>
 
             <div class="col-sm-6">

@@ -62,8 +62,8 @@ export class DialogasignarempleadoComponent implements OnInit {
     this.token = this._cookie.get("token");
 
     this._empleado.getAllEmpleados(this.token).subscribe(res => {
-      if (res) {
-        this.listaEmpleados = res;
+      if (res.data.length) {
+        this.listaEmpleados = res.data;
         this.dataSource = new MatTableDataSource(this.listaEmpleados);
         this.dataSource.paginator = this.paginator;
       } else {

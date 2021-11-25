@@ -25,6 +25,7 @@ import { ComprasComponent } from './home/compras/compras.component';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { EmapaComponent } from './home/emapa/emapa.component';
 import { EmpleadosComponent } from './home/empleados/empleados.component';
+import { FondosComponent } from './home/fondos/fondos.component';
 import { PerfilusuarioComponent } from './home/perfilusuario/perfilusuario.component';
 import { ProductosserviciosComponent } from './home/productosservicios/productosservicios.component';
 import { ProyeccionComponent } from './home/proyeccion/proyeccion.component';
@@ -72,8 +73,8 @@ const routes: Routes = [
       { path: 'novedades', component: DialogallnovedadesComponent }
 
     ] },
-
-    { path: 'perfilusuario', component: PerfilusuarioComponent}
+    { path: 'perfilusuario', component: PerfilusuarioComponent},
+    { path: 'fondos', component: FondosComponent}
     
   ]
 }

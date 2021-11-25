@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { CookieService } from 'ngx-cookie-service';
 import { ClienteI } from 'src/app/models/cliente.interface';
 import { ProsernuevoI } from 'src/app/models/prosernuevo.interface';
 import { ClienteserService } from 'src/app/services/clienteser.service';
@@ -24,24 +25,36 @@ export class DialogprodservComponent implements OnInit {
   prodser: ProsernuevoI[];
   cliente: ClienteI[];
 
-  constructor(public dialogRef: MatDialogRef <DialogprodservComponent>, @Inject(MAT_DIALOG_DATA) 
-  private _cliente: ClienteserService,
-  private _prodser: ProdservService,) { }
+  // variable para el token
+  token: string = '';
+
+  constructor(public dialogRef: MatDialogRef<DialogprodservComponent>, @Inject(MAT_DIALOG_DATA)
+  private _cookie: CookieService,
+    private _prodser: ProdservService,) { }
 
   ngOnInit() {
-    this._prodser.getAll().subscribe(res=>{      
-      this.prodser = res;
-      this.dataSource = new MatTableDataSource(this.prodser);
-      this.dataSource.paginator = this.paginator;      
+    this.token = this._cookie.get('token');
+
+    this._prodser.getAll(this.token).subscribe(res => {
+
+      if (res.data.length) {
+        this.prodser = res.data;
+        this.dataSource = new MatTableDataSource(this.prodser);
+        this.dataSource.paginator = this.paginator;
+      } else {
+        console.log("No hemos encontrado registros");
+
+      }
+
     });
   }
 
-  selectItem(proser: ProsernuevoI){
+  selectItem(proser: ProsernuevoI) {
     this.dialogRef.close(proser);
   }
 
   // funcion para filtro de busqueda
-  applyFilter(filtro: string){
+  applyFilter(filtro: string) {
     filtro = filtro.trim(); // Remove whitespace
     filtro = filtro.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filtro;

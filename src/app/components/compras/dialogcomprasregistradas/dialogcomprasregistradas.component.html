@@ -11,6 +11,15 @@
                 <th mat-header-cell *matHeaderCellDef> Proveedor </th>
                 <td mat-cell *matCellDef="let element"> {{element.proveedor_com}} </td>
             </ng-container>
+            
+            <ng-container matColumnDef="items">
+                <th mat-header-cell *matHeaderCellDef> Proveedor </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <!-- <label *ngFor="let item of lista">
+
+                    </label> -->
+                </td>
+            </ng-container>
 
             <ng-container matColumnDef="tipocom">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Tipo Compra </th>

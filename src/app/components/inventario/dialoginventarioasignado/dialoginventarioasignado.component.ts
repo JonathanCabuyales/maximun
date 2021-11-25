@@ -10,6 +10,7 @@ import { DialogdevolucionComponent } from '../dialogdevolucion/dialogdevolucion.
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-dialoginventarioasignado',
@@ -33,14 +34,19 @@ export class DialoginventarioasignadoComponent implements OnInit {
 
   stockRecibido: number;
 
+  // variable para el token
+  token: string = '';
 
   constructor(private _inventario: InventarioService,
     public dialog: MatDialog,
     private _proser: ProdservService,
     private toastr: ToastrService,
-    private router: Router) { }
+    private _cookie: CookieService) { }
 
   ngOnInit(): void {
+
+    this.token = this._cookie.get('token');
+
     this.loadInventarioAsignado();
     this.proSerVerificar = {
       id_proser: 0,
@@ -67,12 +73,19 @@ export class DialoginventarioasignadoComponent implements OnInit {
   }
 
   loadInventarioAsignado() {
-    this._inventario.getAll().subscribe(res => {
 
-      this.listaInventarioAsignado = res;
+    this._inventario.getAll(this.token).subscribe(res => {
 
-      this.dataSource = new MatTableDataSource(this.listaInventarioAsignado);
-      this.dataSource.paginator = this.paginator;
+
+      if(res.data.length){
+        this.listaInventarioAsignado = res.data;
+
+        this.dataSource = new MatTableDataSource(this.listaInventarioAsignado);
+        this.dataSource.paginator = this.paginator;
+      }else{
+        this.toastError("No hemos podido encontrar registros asignados");
+      }
+      
 
     });
   }
@@ -87,9 +100,9 @@ export class DialoginventarioasignadoComponent implements OnInit {
       this.toastWarning("El usuario ya entrego en su totalidad el inventario asignado.");
     }else if (stockEntregado < stockAsignado) {
 
-      this._proser.getOne(this.id_proser).subscribe(res => {
-
-        this.proSerVerificar = res;
+      this._proser.getOne(this.id_proser, this.token).subscribe(res => {
+        
+        this.proSerVerificar = res.data;
 
         const dialogRef = this.dialog.open(DialogdevolucionComponent, {
           width: '450px',
@@ -108,6 +121,7 @@ export class DialoginventarioasignadoComponent implements OnInit {
               let aux = stockEntregado + parseInt(this.proSerVerificar[0].cantidadfinal_proser);
 
               if (aux > this.proSerVerificar.cantidad_proser) {
+
                 Swal.fire({
                   icon: 'warning',
                   confirmButtonColor: '#1d1d24',
@@ -123,11 +137,14 @@ export class DialoginventarioasignadoComponent implements OnInit {
                 this.prodSerAct.precio_proser = this.proSerVerificar[0].precio_proser;
                 this.prodSerAct.cantidad_proser = this.proSerVerificar[0].cantidad_proser;
                 this.prodSerAct.cantidadfinal_proser = parseInt(stockEntregado) + parseInt(this.proSerVerificar[0].cantidadfinal_proser);
+                this.prodSerAct.token = this.token;
                 delete this.prodSerAct.created_at;
 
                 this._proser.updateProdSer(this.prodSerAct).subscribe(res => {
-                  if (res == true) {
+                  if (res.data) {
                     this.toastSuccess("El inventario se ha actualizado exitosamente");
+                  }else{
+                    this.toastError("Tenemos problemas para actualizar el inventario por favor intentalo más tarde");
                   }
                 }
                 );
@@ -155,7 +172,7 @@ export class DialoginventarioasignadoComponent implements OnInit {
   }
 
   toastError(mensaje: string) {
-    this.toastr.error('Ha ocurrido un problema, intentelo nuevamente más tarde ' + mensaje, 'ERROR', {
+    this.toastr.error(mensaje, 'ERROR', {
       timeOut: 3000,
     });
   }

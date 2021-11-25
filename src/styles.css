@@ -130,7 +130,7 @@ video{
 }
 
 ::-webkit-scrollbar-track{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
 
@@ -765,6 +765,26 @@ table {
   }
 
 /* Estilos para la seccion de compras */
+
+.titulocompra{
+    width: 100%;   
+    background-color: #eeeeee;
+}
+
+.titulocompra h2{
+    padding: 5px;
+    width: 100%;   
+    background: #26253c;
+    color: #fff;
+}
+
+.cabeceraCompra{
+    height: auto;
+    /* background-color: #eeeeee; */
+    border-radius: 6px;
+    padding: 0 2% 2% 2%;
+    width: 100%;
+}
 
 .compras{
     padding: 15px 0;
@@ -1544,4 +1564,50 @@ input[type="file"] {
     width: 200px;
     height: 200px;
     object-fit: cover;
+}
+
+/* estilos para la seccion de fondos */
+.asignacionsvg{
+    width: 30px;
+    height: 30px;
+}
+
+.asignacionsvg:hover{
+    fill: #5ed436;
+}
+
+.justificacion{
+    width: 100%;
+    height: 100%;
+}
+
+.justificacion h4{
+    color: #fff;
+    background-color: #1d1d24;
+    padding: 5px;
+    text-align: center;
+}
+
+.fondoimagen{
+    margin: auto;
+    height: 80px;
+    width: 80px;
+}
+
+.fondoimagen img{
+    height: 100%;
+    width: 100%;
+}
+
+.fotodetalles{
+    width: 40px;
+    height: 40px;
+}
+
+.svgjustificacion:hover{
+    fill: #862420;
+}
+
+.svgdetallesjus:hover{
+    fill: #0f5e4b;
 }

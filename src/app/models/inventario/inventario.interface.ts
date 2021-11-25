@@ -4,5 +4,6 @@ export interface InventarioI {
     id_proser: number,
     stockasignado_inv: number,
     stockentregado_inv: number,
-    proyectos_inv: string
+    proyectos_inv: string,
+    token?: string
 }

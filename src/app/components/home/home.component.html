@@ -169,23 +169,6 @@
                 </div> -->
             </div>
 
-            <div class="item">
-                <a class="sub-btn" [routerLink]="['/home/emapa']" [routerLinkActive]="['active']">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
-                        fill="#FFFFFF">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
-                    </svg>
-                    EMAPA PED</a>
-                <!-- <div class="sub-menu">
-                    <a [routerLink]="['/home/emapa/notificaciones']" [routerLinkActive]="['active']" class="sub-item">Notificaciones</a>
-                    <a [routerLink]="['/home/emapa/cortes']" [routerLinkActive]="['active']" class="sub-item">Cortes</a>
-                    <a [routerLink]="['/home/emapa/reconexiones']" [routerLinkActive]="['active']" class="sub-item">Reconexiones</a>
-                    <a [routerLink]="['/home/emapa/novedades']" [routerLinkActive]="['active']" class="sub-item">Novedades</a>
-                </div> -->
-            </div>
-
             <div class="item" *ngIf="rol == 'ADMIN' || rol == 'ASISTENTE'">
                 <a class="sub-btn" [routerLink]="['/home/proyeccion']" [routerLinkActive]="['active']">
                     <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px"
@@ -253,6 +236,18 @@
 
             </div>
 
+            <div class="item">
+                <a class="sub-btn" [routerLink]="['/home/fondos']" [routerLinkActive]="['active']">
+                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><g><path d="M8,17h2v-1h1c0.55,0,1-0.45,1-1v-3c0-0.55-0.45-1-1-1H8v-1h4V8h-2V7H8v1H7C6.45,8,6,8.45,6,9v3c0,0.55,0.45,1,1,1h3v1H6v2 h2V17z M20,4H4C2.89,4,2.01,4.89,2.01,6L2,18c0,1.11,0.89,2,2,2h16c1.11,0,2-0.89,2-2V6C22,4.89,21.11,4,20,4z M20,18H4V6h16V18z M14,10l2-2l2,2 M18,14.25l-2,2l-2-2"/></g></g></svg>
+                    Fondos</a>
+                <!-- <div class="sub-menu">
+                    <a [routerLink]="['/home/productosservicios/inventario']" [routerLinkActive]="['active']" class="sub-item">Inventario</a>
+                    <a [routerLink]="['/home/productosservicios/inventarioasignado']" [routerLinkActive]="['active']" class="sub-item">Inventario Asignado</a>
+                    <a [routerLink]="['/home/productosservicios/inventarioesmeraldas']" [routerLinkActive]="['active']" class="sub-item">Inv Esmeraladas</a>
+                </div> -->
+
+            </div>
+
             <div class="item" *ngIf="rol == 'ADMIN' || rol == 'ASISTENTE'">
                 <a class="sub-btn" [routerLink]="['/home/clientes']" [routerLinkActive]="['active']">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
@@ -293,6 +288,23 @@
                     <a [routerLink]="['/home/empleados/sueldos']" [routerLinkActive]="['active']">Sueldos</a>
                     <a [routerLink]="['/home/empleados/sueldospagados']" [routerLinkActive]="['active']">Rol de pagos</a>
 
+                </div> -->
+            </div>
+
+            <div class="item">
+                <a class="sub-btn" [routerLink]="['/home/emapa']" [routerLinkActive]="['active']">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                        fill="#FFFFFF">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                    EMAPA PED</a>
+                <!-- <div class="sub-menu">
+                    <a [routerLink]="['/home/emapa/notificaciones']" [routerLinkActive]="['active']" class="sub-item">Notificaciones</a>
+                    <a [routerLink]="['/home/emapa/cortes']" [routerLinkActive]="['active']" class="sub-item">Cortes</a>
+                    <a [routerLink]="['/home/emapa/reconexiones']" [routerLinkActive]="['active']" class="sub-item">Reconexiones</a>
+                    <a [routerLink]="['/home/emapa/novedades']" [routerLinkActive]="['active']" class="sub-item">Novedades</a>
                 </div> -->
             </div>
 

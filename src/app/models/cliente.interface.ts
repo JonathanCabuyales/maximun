@@ -7,5 +7,6 @@ export interface ClienteI {
     direccion_cli: string,
     telefono_cli: string,
     email_cli: string,
-    created_at: Date
+    created_at: Date,
+    token?: string
 }

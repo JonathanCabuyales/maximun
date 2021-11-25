@@ -12,8 +12,8 @@ export class InventarioesmeService {
   
   constructor(private http: HttpClient) { }
 
-  getAll(){
-    this.resultado = this.http.get(`${this.baseUrl}/esmeraldas/get_inventario.php`);
+  getAll(token){
+    this.resultado = this.http.post(`${this.baseUrl}/esmeraldas/get_inventario.php`, JSON.stringify(token));
     return this.resultado;
   }
 
