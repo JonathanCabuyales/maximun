@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
       this.rol = res.data.rol;
       this.foto = res.data.foto;      
     });
+    
   }
 
   mouseenter() {

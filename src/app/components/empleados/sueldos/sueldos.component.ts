@@ -9,6 +9,7 @@ import { UsuarioserService } from 'src/app/services/usuarioser.service';
 import { DialogsueldoempleadoComponent } from '../dialogsueldoempleado/dialogsueldoempleado.component';
 import Swal from 'sweetalert2';
 import { CookieService } from 'ngx-cookie-service';
+import { DialogatrasosComponent } from '../dialogatrasos/dialogatrasos.component';
 
 
 @Component({
@@ -69,28 +70,17 @@ export class SueldosComponent implements OnInit {
 
   sueldos(empleadoSueldo: UsuarioI) {
 
-    this._sueldo.verificarSueldo(empleadoSueldo.id_usuario, this.token).subscribe(res => {
-      if (res.data.length) {
-        Swal.fire({
-          icon: 'error',
-          confirmButtonColor: '#1d1d24',
-          text: 'Ya esta registrado el rol de pagos de ' + empleadoSueldo.nombres + ' ' + empleadoSueldo.apellidos + ' para este mes.'
-        });
-      } else {
-        // abro el dialogo para registrar al nuevo empleado....
-        const dialogRef = this.dialog.open(DialogsueldoempleadoComponent, {
-          width: '900px',
-          data: empleadoSueldo
-        });
+    const dialogRef = this.dialog.open(DialogsueldoempleadoComponent, {
+      width: '900px',
+      data: empleadoSueldo
+    });
 
-        dialogRef.afterClosed().subscribe(res => {
+    dialogRef.afterClosed().subscribe(res => {
 
-          if (res != undefined) {
+      if (res != undefined) {
 
-          }
-
-        });
       }
+
     });
 
   }
@@ -101,6 +91,24 @@ export class SueldosComponent implements OnInit {
 
   deleteEmpleado(id_usuario: any) {
 
+
+  }
+
+  // seccion para registrar los atrasos
+  atrasos(usuario){
+
+    const dialogRef = this.dialog.open(DialogatrasosComponent, {
+      width: '600px',
+      data: usuario
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+
+      if (res != undefined) {
+
+      }
+
+    });
 
   }
 

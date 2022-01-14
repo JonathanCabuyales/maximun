@@ -132,6 +132,17 @@ import { DialogfondosasignadosComponent } from './components/fondos/dialogfondos
 import { DialogfondosjustificacionComponent } from './components/fondos/dialogfondosjustificacion/dialogfondosjustificacion.component';
 import { DialogfondosjustificarComponent } from './components/fondos/dialogfondosjustificar/dialogfondosjustificar.component';
 import { DialogfondosjustificadosComponent } from './components/fondos/dialogfondosjustificados/dialogfondosjustificados.component';
+import { VacacionesComponent } from './components/empleados/vacaciones/vacaciones.component';
+import { AtrasosComponent } from './components/empleados/atrasos/atrasos.component';
+import { DialogatrasosComponent } from './components/empleados/dialogatrasos/dialogatrasos.component';
+import { DialogatrasosjustificarComponent } from './components/empleados/dialogatrasosjustificar/dialogatrasosjustificar.component';
+import { PermisosComponent } from './components/empleados/permisos/permisos.component';
+import { DialogpermisoComponent } from './components/empleados/dialogpermiso/dialogpermiso.component';
+import { DialogrolpagosusuarioComponent } from './components/perfilusuario/dialogrolpagosusuario/dialogrolpagosusuario.component';
+import { DiagloproyeccionesComponent } from './components/proyeccion/diagloproyecciones/diagloproyecciones.component';
+import { DialogmisproyeccionesComponent } from './components/proyeccion/dialogmisproyecciones/dialogmisproyecciones.component';
+import { DialogfechasComponent } from './components/proyeccion/dialogfechas/dialogfechas.component';
+import { DialogfechasregistradasComponent } from './components/proyeccion/dialogfechasregistradas/dialogfechasregistradas.component';
 
 @NgModule({
   declarations: [
@@ -203,7 +214,18 @@ import { DialogfondosjustificadosComponent } from './components/fondos/dialogfon
     DialogfondosasignadosComponent,
     DialogfondosjustificacionComponent,
     DialogfondosjustificarComponent,
-    DialogfondosjustificadosComponent
+    DialogfondosjustificadosComponent,
+    VacacionesComponent,
+    AtrasosComponent,
+    DialogatrasosComponent,
+    DialogatrasosjustificarComponent,
+    PermisosComponent,
+    DialogpermisoComponent,
+    DialogrolpagosusuarioComponent,
+    DiagloproyeccionesComponent,
+    DialogmisproyeccionesComponent,
+    DialogfechasComponent,
+    DialogfechasregistradasComponent
     ],
   imports: [
     BrowserModule,

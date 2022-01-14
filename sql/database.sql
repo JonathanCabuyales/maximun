@@ -3,6 +3,7 @@ CREATE DATABASE VTPROYECTOS CHARACTER SET utf8mb4;
 USE VTPROYECTOS;
 
 CREATE TABLE empresa(
+  id_emp INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre_emp TEXT NOT NULL,
   ruc_emp VARCHAR(14),
   direccion_emp VARCHAR(100),
@@ -84,18 +85,19 @@ CREATE TABLE tipocliente(
 -- seccion de facturas
 CREATE TABLE facturas(
   id_fac INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  codigo_fac INT NOT NULL,
+  claveacceso_fac TEXT NOT NULL,
+  numero_fac INT NOT NULL,
+  serie_fac INT NOT NULL,
   id_cli INT NOT NULL,
   id_usuario INT NOT NULL,
   servicios_fac TEXT NOT NULL,
-  id_con INT NOT NULL,
   impuesto_fac  FLOAT NOT NULL,
   fondosocial_fac FLOAT NOT NULL,
+  interes_fac FLOAT NOT NULL,
   neto_fac FLOAT NOT NULL,
   total_fac FLOAT NOT NULL,
   metodo_fac VARCHAR(50) NOT NULL,
   mesesatraso_fac INT NOT NULL,
-  generada_fac BOOLEAN NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -346,6 +348,51 @@ CREATE TABLE fondos_justificados(
   detalles_fonjus TEXT NOT NULL,
   justificado_fonjus FLOAT NOT NULL,
   nojustificado_fonjus FLOAT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE atrasos(
+  id_atr INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  fecha_atr VARCHAR(50) NOT NULL,
+  tiempo_atr VARCHAR(50) NOT NULL,
+  descripcion_atr VARCHAR(50) NOT NULL,
+  justificado_atr VARCHAR(10) NOT NULL,
+  justificacion_atr VARCHAR(100) NOT NULL,
+  fechajusti_atr VARCHAR(50) NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE estado_usuario(
+  id_esusu INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  descripcion_esusu VARCHAR(50) NOT NULL,
+  fecha_baja_esusu VARCHAR(15) NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE permisos(
+  id_per INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  fecha_per VARCHAR(15) NOT NULL,
+  motivo_per TEXT NOT NULL,
+  aprobado_per VARCHAR(10) NOT NULL,
+  fechaapro_per VARCHAR(15) NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE proyeccion (
+  id_pro INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  descripcion_pro TEXT NOT NULL,
+  estado_pro VARCHAR(100) NOT NULL,
+  tiempo_pro TEXT NOT NULL,
+  viabilidad_pro VARCHAR(100) NOT NULL,
+  valores_pro TEXT NOT NULL,
+  empleados_pro TEXT NOT NULL,
+  equipo_pro TEXT NOT NULL,
+  insumos_pro TEXT NOT NULL,
+  rendimiento_pro TEXT NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

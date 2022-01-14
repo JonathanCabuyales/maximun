@@ -23,8 +23,8 @@ export class UsuarioserService {
     return this.resultado;
   }
 
-  getVerificarDocumentos(id_usuario: any){
-    this.resultado = this.http.get(`${this.baseUrl}/empleados/empleados_verificar_documentos.php?id_usuario=${id_usuario}`);
+  getVerificarDocumentos(id_usuario: any, token: any){
+    this.resultado = this.http.get(`${this.baseUrl}/empleados/empleados_verificar_documentos.php?id_usuario=${id_usuario}&token=${token}`);
     return this.resultado;
   }
 
@@ -40,6 +40,11 @@ export class UsuarioserService {
 
   updateEmpleado(usuario: UsuarioI){
     this.resultado = this.http.put(`${this.baseUrl}/empleados/empleados_update.php`, JSON.stringify(usuario));
+    return this.resultado;
+  }
+
+  updateEmpleadoEstado(usuario: any){
+    this.resultado = this.http.put(`${this.baseUrl}/empleados/empleados_estado_update.php`, JSON.stringify(usuario));
     return this.resultado;
   }
 }

@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { BdemapaService } from 'src/app/services/bdemapa.service';
 
 @Component({
   selector: 'app-dialoginventarioasignado',
@@ -41,7 +42,8 @@ export class DialoginventarioasignadoComponent implements OnInit {
     public dialog: MatDialog,
     private _proser: ProdservService,
     private toastr: ToastrService,
-    private _cookie: CookieService) { }
+    private _cookie: CookieService,
+    private _excel: BdemapaService) { }
 
   ngOnInit(): void {
 
@@ -156,6 +158,10 @@ export class DialoginventarioasignadoComponent implements OnInit {
     });
 
     }
+  }
+
+  excel(){
+    this._excel.exportToExcel(this.listaInventarioAsignado,'Inventario_asignado');
   }
 
   // funcion para filtro de busqueda

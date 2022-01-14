@@ -26,10 +26,10 @@ export class SueldospagadosComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  fechaInicio: string = '';
-  fechaFin: string = '';
+  fecha: string = '';
 
   mesReporte: any = '0';
+  anioreporte: string = '';
 
   listaRoles: any[];
   rolUpadate: RolI;
@@ -47,25 +47,31 @@ export class SueldospagadosComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.loadRoles();
+    
+    this.token = this._cookie.get('token');
+    
     this.mesReporte = '0';
+    this.anioreporte =  '' + new Date().getFullYear();
+    this.listaRoles = [];
+    this.dataSource = new MatTableDataSource(this.listaRoles);
+   
   }
 
   excel() {
-    let dia = new Date().getDay();
+
     let mes = new Date().getMonth();
     let anio = new Date().getFullYear();
 
     if(this.listaRoles.length){
       this._bdemapa.exportToExcel(this.listaRoles, "Roles_" +
-      anio + '_' + mes);
+      this.anioreporte + '_' + mes);
     }else{
       this.toastError("");
     }
   }
 
   loadRoles() {
-    this.token = this._cookie.get('token');
+    
     this._sueldo.getAll(this.token).subscribe(res => {
       if (res.data.length) {
         this.listaRoles = res.data;
@@ -74,6 +80,10 @@ export class SueldospagadosComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       } else {
         this.toastWarning("No se encuentran registros en Roles de pago");
+
+        this.listaRoles = [];
+        this.dataSource = new MatTableDataSource(this.listaRoles);
+        this.dataSource.paginator = this.paginator;
       }
     });
 
@@ -136,16 +146,11 @@ export class SueldospagadosComponent implements OnInit {
       });
     } else {
 
-      let anio = new Date().getFullYear();
+      // let ultimoDia = new Date(today.getFullYear(), this.mesReporte, 0).getDate()
 
-      let today = new Date()
-      let ultimoDia = new Date(today.getFullYear(), this.mesReporte, 0).getDate()
+      this.fecha = this.anioreporte + '-' + this.mesReporte + '-15' ;
 
-
-      this.fechaInicio = anio + '-' + this.mesReporte + '-' + '01' + ' 00:00:00';
-      this.fechaFin = anio + '-' + this.mesReporte + '-' + ultimoDia + ' 23:59:59';
-
-      this._sueldo.getSueldosMes(this.fechaInicio, this.fechaFin, this.token).subscribe(res => {
+      this._sueldo.getSueldosMes(this.fecha, this.token).subscribe(res => {
 
         if (res.data.length) {
           this.listaRoles = res.data;

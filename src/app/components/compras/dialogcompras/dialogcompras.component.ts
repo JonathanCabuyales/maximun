@@ -19,8 +19,6 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DialogcomprasComponent implements OnInit {
 
-
-
   displayedColumns: string[] = ['descripcion', 'cantidad', 'precio', 'total', 'eliminar'];
   dataSource: MatTableDataSource<any>;
 

@@ -12,8 +12,8 @@ export class PrefacturaService {
   
   constructor(private http: HttpClient) { }
 
-  getAll(){
-    this.resultado = this.http.get(`${this.baseUrl}/prefactura/prefactura_get.php`);
+  getAll(token: any){
+    this.resultado = this.http.get(`${this.baseUrl}/prefactura/prefactura_get.php?token=${token}`);
     return this.resultado;
   }
 

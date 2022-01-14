@@ -317,7 +317,7 @@ export class EmapadashComponent implements OnInit {
       this.totalgrupo[3] = zambrano;
       this.totalgrupo[4] = grupocero;
 
-      this.dia = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()
+      this.dia = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
       this.mes = new Date().toLocaleDateString('es', { month: 'long' });
       this.anio = new Date().getFullYear();
 

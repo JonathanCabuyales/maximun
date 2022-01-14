@@ -121,6 +121,9 @@ video{
 .pantalla{
     width: 100%;
     height: 100vh;
+    background-image: url(./assets/img/fondo_dashboard.jpg);
+    background-position: relative;
+    background-size: cover;
 }
 
 ::-webkit-scrollbar{
@@ -302,7 +305,7 @@ video{
     width: 100%;
     padding: 5px;
     background-color: rgb(235, 235, 235);
-    border: 1px solid rgba(150, 149, 149, 0.74);
+    border: 1px solid #969595bd;
     border-radius: 5px;
     box-shadow: -9px -10px 0px -1px rgb(49 172 38);
 }
@@ -523,6 +526,10 @@ table {
     width: 100%;
 }
 
+.mat-elevation-z8{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+}
+
 .mat-elevation-z8 th{
     background-color: #1d1d24;
     color: #fff;
@@ -615,6 +622,7 @@ table {
     margin: 2% 0 0 2%;
     width: 96%;   
     background-color: #eeeeee;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .tituloFactura h2{
@@ -711,7 +719,7 @@ table {
 
 .detalleFactura{
     height: auto;
-    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
     background-color: #eeeeee;
     border-radius: 6px;
     margin: 1% 0 2% 2%;
@@ -1066,6 +1074,15 @@ table td{
     width: 100%;
 }
 
+.svgRechazar{
+    fill: #ff0000;
+}
+
+.svgRechazar:hover{
+    cursor: pointer;
+    fill: #d80000;
+}
+
 /* Estilos para la seccion de empleados */
 .formEmpleado{
     display: flex;
@@ -1240,6 +1257,42 @@ table td{
     cursor: pointer;
 }
 
+.svgUsuarioA{
+    fill: #25be46;
+}
+
+.svgUsuarioA:hover{
+    cursor: pointer;
+    fill: #166327;
+}
+
+.svgUsuarioI{
+    fill: #be2525;
+}
+
+.svgUsuarioI:hover{
+    cursor: pointer;
+    fill: #631616;
+}
+
+.svgMail{
+    fill: #186aa1;
+}
+
+.svgMail:hover{
+    cursor: pointer;
+    fill: #5abdff;
+}
+
+.svgFechas{
+    fill: #186aa1;
+}
+
+.svgFechas:hover{
+    cursor: pointer;
+    fill: #5abdff;
+}
+
 /* estilos animados para los inputs de empleado */
 .form{
     width: 100%;
@@ -1324,6 +1377,7 @@ table td{
 }
 
 .pdfsvg:hover{
+    cursor: pointer;
     fill: #811313;
 }
 
@@ -1610,4 +1664,49 @@ input[type="file"] {
 
 .svgdetallesjus:hover{
     fill: #0f5e4b;
+}
+
+/* estilos generales */
+
+.sombra{
+    margin-left: 1%;
+    margin-bottom: 2%;
+    width: 98%;
+    height: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+}
+
+.margenGeneral{
+    padding: 10px;
+}
+.titulo{
+    padding: 10px;
+    display: flex;
+    color: #000000;
+}
+
+.svgSearch{
+    fill: #000000;
+}
+
+.svgSearch:hover{
+    cursor: pointer;
+    fill: #43346b;
+}
+
+.card{
+    width: 98%;
+    margin: 1% 0 1% 1%;
+    height: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    background-color: rgb(247, 247, 247);
+}
+
+.titulocard{
+    text-align: center;
+    padding-top: 7px;
+    margin: 0;
+    position: relative;
+    background-color: #1d1d24;
+    color: #fff;
 }

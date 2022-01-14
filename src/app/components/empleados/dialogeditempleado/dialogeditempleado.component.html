@@ -14,21 +14,25 @@
 <br>
 <br>
 <div class="row">
+
     <div class="col-sm-4">
         <span><b>Nombre:</b></span>
         <input matInput type="text" class="form-control" readonly="readonly" placeholder="Nombres"
             [(ngModel)]="empleado.nombres">
     </div>
+
     <div class="col-sm-4">
         <span><b>Apellido:</b></span>
         <input matInput type="text" class="form-control" readonly="readonly" placeholder="Apellidos"
             [(ngModel)]="empleado.apellidos">
     </div>
+
     <div class="col-sm-4">
         <span><b>Cédula:</b></span>
         <input matInput type="number" readonly="readonly" class="form-control" placeholder="Cédula"
             [(ngModel)]="empleado.ciruc">
     </div>
+
 </div>
 <br>
 <div class="row">
@@ -40,17 +44,17 @@
 
     <div class="col-sm-4">
         <span><b>Teléfono:</b></span>
-        <input matInput type="number" class="form-control" placeholder="Teléfono" [(ngModel)]="empleado.telefono">
+        <input matInput type="text" maxlength="10" class="form-control" placeholder="Teléfono" [(ngModel)]="empleado.telefono">
     </div>
+
     <div class="col-sm-4">
         <span><b>Email:</b></span>
         <input matInput type="text" readonly="readonly" class="form-control" placeholder="Email"
             [(ngModel)]="empleado.email">
     </div>
+    
 </div>
 <br>
-
-
 
 <div class="row">
 
@@ -69,16 +73,15 @@
             <option value="INDEFINIDO">Indefinido</option>
         </select>
     </div>
-    <div class="col-sm-4">
-    </div>
-
-
+    <div class="col-sm-4"></div>
 </div>
 <br>
-<div class="raw">
+<div class="row">
+
     <div class="col-sm-12">
         <div class="btnEmpleado">
             <button class="btn" (click)="guardar()">Guardar Cambios</button>
         </div>
     </div>
+    
 </div>

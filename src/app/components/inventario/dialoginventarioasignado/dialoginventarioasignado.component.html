@@ -8,6 +8,8 @@
         <input type="text" placeholder="Buscar..." name="documentID" (keyup)="applyFilter($event.target.value)">
     </div>
 </div>
+<button class="btn" (click)="excel()">excel</button>
+
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
 

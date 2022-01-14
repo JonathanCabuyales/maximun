@@ -13,5 +13,6 @@ export interface UsuarioI {
     sueldo: string,
     fotoperfil: string,
     tipocontrato: string,
-    create_at: Date
+    create_at: Date,
+    token?: string
 }

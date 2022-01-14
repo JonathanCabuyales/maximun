@@ -2,18 +2,18 @@
 <div class="row">
     <div class="col-sm-6">
         <span><b>Detalle: </b></span>
-        <input type="text" class="form-control" placeholder="Detalle" [(ngModel)]="equipominimo.detalle">
+        <input type="text" class="form-control" placeholder="Detalle" [(ngModel)]="equipominimo.detalle" (keyup.enter)="grabarEquipoMinimo()">
     </div>
     <div class="col-sm-6">
         <span><b>Cantidad: </b></span>
-        <input type="number" style="text-align: right;" class="form-control" placeholder="Cantidad" [(ngModel)]="equipominimo.cantidad">
+        <input type="number" style="text-align: right;" class="form-control" placeholder="Cantidad" [(ngModel)]="equipominimo.cantidad" (keyup.enter)="grabarEquipoMinimo()">
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col-sm-6">
         <span><b>Valor: </b></span>
-        <input type="number" style="text-align: right;" class="form-control" placeholder="Valor" [(ngModel)]="equipominimo.valor">
+        <input type="number" style="text-align: right;" class="form-control" placeholder="Valor" [(ngModel)]="equipominimo.valor" (keyup.enter)="grabarEquipoMinimo()">
     </div>
     <div class="col-sm-6">
         <button class="btn" (click)="grabarEquipoMinimo()">Registrar</button>

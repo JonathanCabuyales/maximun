@@ -5,5 +5,13 @@
     <mat-tab label="Proyección">
         <app-dialogrendimientoproyecto #calculoproyeccion></app-dialogrendimientoproyecto>
     </mat-tab>
+    
+    <mat-tab label="Mis Proyecciones">
+        <app-dialogmisproyecciones #misproyecciones></app-dialogmisproyecciones>
+    </mat-tab>
 
+    <mat-tab label="Proyecciones Registradas" *ngIf="rol == 'ADMIN'">
+        <app-diagloproyecciones #proyecciones></app-diagloproyecciones>
+    </mat-tab>
+    
 </mat-tab-group>

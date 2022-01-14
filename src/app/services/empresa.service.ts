@@ -12,8 +12,8 @@ export class EmpresaService {
   
   constructor(private http: HttpClient) { }
 
-  getAll(){
-    this.resultado = this.http.get(`${this.baseUrl}/empresa/empresa_get.php`);
+  getAll(token){
+    this.resultado = this.http.get(`${this.baseUrl}/empresa/empresa_get.php?token=${token}`);
     return this.resultado;
   }
 

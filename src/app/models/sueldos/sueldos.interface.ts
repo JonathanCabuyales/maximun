@@ -23,6 +23,7 @@ export interface SueldosI {
     neto_recibir: string,
     contrato: string,
     aprobado: string,
+    mes_rol?: string,
     actafiniquito: string,
     token?: string,
     id_sueldos?: string

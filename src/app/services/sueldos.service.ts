@@ -23,8 +23,8 @@ export class SueldosService {
     return this.resultado;
   }
 
-  getSueldosMes(fechainicio: string, fechafin: string, token: any){
-    this.resultado = this.http.get(`${this.baseUrl}/sueldos/sueldos_mes_get.php?fechainicio=${fechainicio}&fechafin=${fechafin}&token=${token}`);
+  getSueldosMes(fecha: string, token: any){
+    this.resultado = this.http.get(`${this.baseUrl}/sueldos/sueldos_mes_get.php?fecha=${fecha}&token=${token}`);
     return this.resultado;
   }
 
@@ -33,8 +33,13 @@ export class SueldosService {
     return this.resultado;
   }
 
-  verificarSueldo(id_usuario: any, token: any){
-    this.resultado = this.http.get(`${this.baseUrl}/sueldos/sueldoverificar_get.php?id_usuario=${id_usuario}&token=${token}`);
+  // verificarSueldo(id_usuario: any, token: any){
+  //   this.resultado = this.http.get(`${this.baseUrl}/sueldos/sueldoverificar_get.php?id_usuario=${id_usuario}&token=${token}`);
+  //   return this.resultado;
+  // }
+
+  verificarSueldo(id_usuario: any, fecha: any, token: any){
+    this.resultado = this.http.get(`${this.baseUrl}/sueldos/sueldo_verificar.php?id_usuario=${id_usuario}&mes_rol=${fecha}&token=${token}`);
     return this.resultado;
   }
 
@@ -48,5 +53,9 @@ export class SueldosService {
     return this.resultado;
   }
 
-  
+  getSueldoUsuario(token: any, id_usuario: any){
+    this.resultado = this.http.get(`${this.baseUrl}/sueldos/sueldo_get_usuario.php?token=${token}&id_usuario=${id_usuario}`);
+    return this.resultado;
+  }
+
 }

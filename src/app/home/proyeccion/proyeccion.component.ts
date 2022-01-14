@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { DiagloproyeccionesComponent } from 'src/app/components/proyeccion/diagloproyecciones/diagloproyecciones.component';
+import { DialogmisproyeccionesComponent } from 'src/app/components/proyeccion/dialogmisproyecciones/dialogmisproyecciones.component';
 import { DialogrendimientoproyectoComponent } from 'src/app/components/proyeccion/dialogrendimientoproyecto/dialogrendimientoproyecto.component';
 import { AmortizacionI } from 'src/app/models/amortizacion.interface';
+import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,14 +15,36 @@ import Swal from 'sweetalert2';
 export class ProyeccionComponent implements OnInit {
 
   @ViewChild('calculoproyeccion', { static: false }) calculoproyeccion: DialogrendimientoproyectoComponent;
-
+  @ViewChild('proyecciones', { static: false }) proyecciones: DiagloproyeccionesComponent;
+  @ViewChild('misproyecciones', { static: false }) misproyecciones: DialogmisproyeccionesComponent;
+  
   active = 0;
+
+  token: string = '';
 
   proyeccion: AmortizacionI;
 
-  constructor() { }
+  isExpanded = false;
+  showSubmenu: boolean = false;
+  isShowing = false;
+  showSubSubMenu: boolean = false;
+  usuario: string;
+  rol: string;
+  foto: string = '';
+
+  constructor(private _login: LoginService,
+    private _cookie: CookieService) { }
 
   ngOnInit() {
+
+    this.token = this._cookie.get("token");
+
+    this._login.getuserdata(this.token).subscribe(res=>{
+      this.usuario = res.data.usuario;
+      this.rol = res.data.rol;
+      this.foto = res.data.foto;      
+    });
+
     this.proyeccion = {
       valorPrestamo: 0,
       TNA: 0,
@@ -65,6 +91,10 @@ export class ProyeccionComponent implements OnInit {
   onTabChange(e) {
     if(e == 0){
       this.calculoproyeccion.ngOnInit();
+    }else if ( e == 1 ){
+      this.misproyecciones.ngOnInit();
+    }else if ( e == 2 ){
+      this.proyecciones.ngOnInit();
     }
 
   }

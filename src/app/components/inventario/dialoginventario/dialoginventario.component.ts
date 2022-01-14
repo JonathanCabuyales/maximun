@@ -9,6 +9,7 @@ import { DialogasignarempleadoComponent } from '../dialogasignarempleado/dialoga
 import { DialogProSerComponent } from '../../productosservicios/dialog-pro-ser/dialog-pro-ser.component';
 import { DialogconfirmacionComponent } from '../../productosservicios/dialogconfirmacion/dialogconfirmacion.component';
 import { CookieService } from 'ngx-cookie-service';
+import { BdemapaService } from 'src/app/services/bdemapa.service';
 
 @Component({
   selector: 'app-dialoginventario',
@@ -42,7 +43,8 @@ export class DialoginventarioComponent implements OnInit {
     private _prodser: ProdservService,
     private toastr: ToastrService,
     public dialog: MatDialog,
-    private _cookie: CookieService) { }
+    private _cookie: CookieService,
+    private _excel: BdemapaService) { }
 
   ngOnInit() {
 
@@ -183,6 +185,10 @@ export class DialoginventarioComponent implements OnInit {
       }
     });
 
+  }
+
+  excel(){
+    this._excel.exportToExcel(this.productosServicios,'Inventario');
   }
 
   // funcion para filtro de busqueda

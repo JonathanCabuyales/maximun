@@ -9,8 +9,22 @@
 </div>
 <br>
 <div class="fechaNoti">
-    <b>Mes a cargar: </b>
+    <b>Fecha del reporte: </b>
     <div class="row">
+        <div class="col-sm-2">
+            <select class="combobox" [(ngModel)]="anioreporte" (change)="capturar()">
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+            </select>
+        </div>
         <div class="col-sm-3">
             <select class="combobox" [(ngModel)]="mesReporte" (change)="capturar()">
                 <option value="0">Seleccione el Mes</option>
@@ -37,7 +51,7 @@
             <button (click)="excel()" class="btn" style="margin: 20px auto; background-color: #25be46;">
                 Descargar Reporte</button>
         </div>
-        <div class="col-sm-2"></div>
+        
     </div>
 </div>
 

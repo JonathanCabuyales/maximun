@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { PdfMakeWrapper, Txt, Img, Table, Toc, Columns, Ul, Ol } from 'pdfmake-wrapper';
 import { FacturaclienteI } from 'src/app/models/facturacliente.interface';
@@ -46,13 +47,17 @@ export class DialogappfacturasComponent implements OnInit {
   fechaAutorizacion: any;
   fondoSocial: number = 0.50;
 
+  token: any;
+
   constructor(private _novedad: NovedadesService,
     private _factura: FacturaService,
     public dialog: MatDialog,
     private _prefactura: PrefacturaService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private _cookie: CookieService) { }
 
   ngOnInit(): void {
+    this.token = this._cookie.get('token');
     this.loadPrefacturas();
     this.fechaAutorizacion = new Date().toLocaleString();
 
@@ -60,7 +65,7 @@ export class DialogappfacturasComponent implements OnInit {
 
   loadPrefacturas() {
 
-    this._prefactura.getAll().subscribe(res => {
+    this._prefactura.getAll(this.token).subscribe(res => {
 
       if(res.length){
       this.listaPrefacturas = res;

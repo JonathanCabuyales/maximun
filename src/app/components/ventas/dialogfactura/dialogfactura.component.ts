@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { ClienteI } from 'src/app/models/cliente.interface';
 import { EmpleadoVentaI } from 'src/app/models/empleados/empleadoventa.interface';
@@ -12,6 +13,7 @@ import { ProdservService } from 'src/app/services/prodserv.service';
 import { DialogallclientesComponent } from '../../clientes/dialogallclientes/dialogallclientes.component';
 import { DialogprodservComponent } from '../../productosservicios/dialogprodserv/dialogprodserv.component';
 import { DialogempleadosventasComponent } from '../dialogempleadosventas/dialogempleadosventas.component';
+import * as forge from 'node-forge'
 
 @Component({
   selector: 'app-dialogfactura',
@@ -49,12 +51,21 @@ export class DialogfacturaComponent implements OnInit {
   totalFactura: string = '0.00';
 
 
+  // variable para el token
+  token: string = '';
+
+  // variables para la firma
+  p12password: string = '';
+  file: any;
+
   constructor(public dialog: MatDialog,
     private _prodser: ProdservService,
     private _empresa: EmpresaService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private _cookie: CookieService) { }
 
   ngOnInit(): void {
+    this.token = this._cookie.get('token');
 
     this.cliente = {
       id_cli: 0,
@@ -75,11 +86,9 @@ export class DialogfacturaComponent implements OnInit {
 
   loadEmpresa() {
 
-    this._empresa.getAll().subscribe(res => {
-      console.log(res);
-
-      if (res.length) {
-        this.empresa = res;
+    this._empresa.getAll(this.token).subscribe(res => {
+      if (res.data.length) {
+        this.empresa = res.data;
       } else {
         this.toastWarning("No hay información de la empresa, por favor verifique e intente nuevamente más tarde");
       }
@@ -175,6 +184,105 @@ export class DialogfacturaComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.listaProSer);
     this.dataSource.paginator = this.paginator;
   }
+
+  archivo_p12(archivo) {
+    console.log(archivo.target.files[0]);
+    this.file = archivo.target.files[0];
+
+    let reader = new FileReader();
+
+    reader.addEventListener("loadend", function (event) {
+        archivo = event.target.result;
+        console.log();
+        var p12password = document.querySelector("#p12password");
+    }, false);
+
+    //reader.readAsDataURL(file);
+    reader.readAsArrayBuffer(this.file);
+
+  }
+
+  archivo_comprobante(archivo) {
+    console.log(archivo.target.files[0]);
+    let arrayUint8 = new Uint8Array(archivo.target.files[0]);
+    
+    console.log(arrayUint8);
+
+
+  }
+
+  firmar() {
+
+  }
+
+  sha1_base64(txt) {
+    var md = forge.md.sha1.create();
+    md.update(txt);
+    //console.log('Buffer in: ', Buffer);
+    return new Buffer(md.digest().toHex(), 'hex').toString('base64');
+  }
+
+  hexToBase64(str) {
+    var hex = ('00' + str).slice(0 - str.length - str.length % 2);
+
+    return btoa(String.fromCharCode.apply(null,
+      hex.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
+    );
+  }
+
+  bigint2base64(bigint) {
+    var base64 = '';
+    base64 = btoa(bigint.toString(16).match(/\w{2}/g).map(function (a) { return String.fromCharCode(parseInt(a, 16)); }).join(""));
+
+    base64 = base64.match(/.{1,76}/g).join("\n");
+
+    return base64;
+  }
+
+  p_obtener_aleatorio() {
+    return Math.floor(Math.random() * 999000) + 990;
+  }
+
+
+
+  // p_comprobar_numero_cedula(cedula) {
+
+  //   if (typeof (cedula) == 'string' && cedula.length == 10 && /^\d+$/.test(cedula)) {
+  //     var digitos = cedula.split('').map(Number);
+  //     var codigo_provincia = digitos[0] * 10 + digitos[1];
+
+  //     if (codigo_provincia >= 1 && codigo_provincia <= 24 && digitos[2] < 6) {
+  //       var digito_verificador = digitos.pop();
+
+  //       var digito_calculado = digitos.reduce(function (valorPrevio, valorActual, indice) {
+  //         return valorPrevio - (valorActual * (2 - indice % 2)) % 9 - (valorActual == 9) * 9;
+  //       }, 1000) % 10;
+
+  //       return (digito_calculado === digito_verificador);
+  //     }
+  //   }
+  //   return false;
+  // }
+
+
+  // funcion para calcular el modulo 11
+  p_calcular_digito_modulo11(numero) {
+    var digito_calculado = -1;
+
+    if (typeof (numero) == 'string' && /^\d+$/.test(numero)) {
+
+      var digitos = numero.split('').map(Number); //arreglo con los dígitos del número
+
+      digito_calculado = 11 - digitos.reduce(function (valorPrevio, valorActual, indice) {
+        return valorPrevio + (valorActual * (7 - indice % 6));
+      }, 0) % 11;
+
+      digito_calculado = (digito_calculado == 11) ? 0 : digito_calculado; //según ficha técnica
+      digito_calculado = (digito_calculado == 10) ? 1 : digito_calculado; //según ficha técnica
+    }
+    return digito_calculado;
+  }
+
 
   // funcion para filtro de busqueda
   applyFilter(filtro: string) {

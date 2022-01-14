@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AtrasosComponent } from 'src/app/components/empleados/atrasos/atrasos.component';
 import { DialogempleadosComponent } from 'src/app/components/empleados/dialogempleados/dialogempleados.component';
+import { PermisosComponent } from 'src/app/components/empleados/permisos/permisos.component';
 import { SueldosComponent } from 'src/app/components/empleados/sueldos/sueldos.component';
 import { SueldospagadosComponent } from 'src/app/components/empleados/sueldospagados/sueldospagados.component';
+import { VacacionesComponent } from 'src/app/components/empleados/vacaciones/vacaciones.component';
 import { UsuarioI } from 'src/app/models/usuario.interface';
 import { BdemapaService } from 'src/app/services/bdemapa.service';
 
@@ -15,6 +18,11 @@ export class EmpleadosComponent implements OnInit {
   @ViewChild('variableHijo1', { static: false }) empleados: DialogempleadosComponent;
   @ViewChild('variableHijo2', { static: false }) sueldos: SueldosComponent;
   @ViewChild('rolpagos', {static: false}) rolpago: SueldospagadosComponent;
+  @ViewChild('atrasos', {static: false}) atrasos: AtrasosComponent;
+  @ViewChild('vaciones', {static: false}) vaciones: VacacionesComponent;
+  @ViewChild('permisos', {static: false}) permisos: PermisosComponent;
+
+  
 
   active = 0;
 
@@ -51,7 +59,13 @@ export class EmpleadosComponent implements OnInit {
       this.sueldos.ngOnInit();
     }else if (e == 2){
       this.rolpago.ngOnInit();
-    }
+    }else if (e == 3){
+      this.atrasos.ngOnInit();
+    } else if (e == 4){
+      this.vaciones.ngOnInit();
+    } else if (e == 5){
+      this.permisos.ngOnInit();
+    } 
 
   }
 
