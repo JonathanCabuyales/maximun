@@ -5,8 +5,8 @@
 // $nombre_base_de_datos = "vtproyectos";
 
 $bd = "localhost";
-$contrasena = "4956andres";
-$usuario = "vtproy20_admincontable";
+$contrasena = "";
+$usuario = "root";
 $nombre_base_de_datos = "vtproy20_contable";
 
 // $con = new PDO('mysql:host=localhost;dbname=' . $nombre_base_de_datos, $usuario, $contraseña);

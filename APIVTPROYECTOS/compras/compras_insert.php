@@ -1,10 +1,18 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-header('Content-Type: application/json');
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include ("../conexion/bd.php");
+require_once '../jwt/src/BeforeValidException.php';
+require_once '../jwt/src/ExpiredException.php';
+require_once '../jwt/src/SignatureInvalidException.php';
+require_once '../jwt/src/JWT.php';
+use \Firebase\JWT\JWT;
+
+define ('SECRET_KEY', '4956andres.'); // la clave secreta puede ser una cadena aleatoria y mantenerse en secreto para cualquier persona
+define ('ALGORITMO', 'HS256'); // Algoritmo utilizado para firmar el token
 
 $json = file_get_contents('php://input');
 
@@ -14,10 +22,8 @@ if (!$jsonCompra) {
     exit("No hay datos para registrar");
 }
 
+$id_prove = $jsonCompra->id_prove;
 $tipocomprobante_com = $jsonCompra->tipocomprobante_com;
-$proveedor_com = $jsonCompra->proveedor_com;
-$proveedorciruc_com = $jsonCompra->proveedorciruc_com;
-$direccionproveedor_com = $jsonCompra->direccionproveedor_com;
 $emsion_com = $jsonCompra->emsion_com;
 $registro_com = $jsonCompra->registro_com;
 $serie_com = $jsonCompra->serie_com;
@@ -29,16 +35,64 @@ $iva_com = $jsonCompra->iva_com;
 $ICE_com = $jsonCompra->ICE_com;
 $devolucionIVA = $jsonCompra->devolucionIVA;
 $costogasto_com = $jsonCompra->costogasto_com;
+$jwt = $jsonCompra->token;
 
-$query = "INSERT INTO compras (tipocomprobante_com, proveedor_com, proveedorciruc_com, direccionproveedor_com, emsion_com, registro_com, serie_com, autorizacionSRI_com, vencimiento_com, comceptos_com, formapago_com, iva_com, ICE_com, devolucionIVA, costogasto_com) 
-VALUES ('$tipocomprobante_com', '$proveedor_com', '$proveedorciruc_com', '$direccionproveedor_com', '$emsion_com', '$registro_com', '$serie_com', '$autorizacionSRI_com', '$vencimiento_com', '$comceptos_com' ,'$formapago_com', '$iva_com', '$ICE_com', '$devolucionIVA', '$costogasto_com')";
 
-$insert = mysqli_query($con, $query);
+try {
+    JWT::$leeway = 10;
+    $decoded = JWT::decode($jwt, SECRET_KEY, array(ALGORITMO));
 
-class Result {}
+    // Access is granted. Add code of the operation here 
 
-$response = new Result();
-$response->resultado = 'OK';
+    include ("../conexion/bd.php");
 
-header('Content-Type: application/json');
-echo json_encode($response);
+    $query = "INSERT INTO compras (
+        id_prove, 
+        tipocomprobante_com, 
+        emsion_com, 
+        registro_com, 
+        serie_com, 
+        autorizacionSRI_com, 
+        vencimiento_com, 
+        comceptos_com, 
+        formapago_com, 
+        iva_com, 
+        ICE_com, 
+        devolucionIVA, 
+        costogasto_com) 
+    VALUES ('$id_prove', 
+        '$tipocomprobante_com',  
+        '$emsion_com', 
+        '$registro_com', 
+        '$serie_com', 
+        '$autorizacionSRI_com', 
+        '$vencimiento_com', 
+        '$comceptos_com',
+        '$formapago_com', 
+        '$iva_com', 
+        '$ICE_com', 
+        '$devolucionIVA', 
+        '$costogasto_com')";
+
+    $insert = mysqli_query($con, $query);
+
+    $data_insert=array(
+        "data" => $insert,
+        "status" => "success",
+        "message" => "Request authorized"
+    );  
+
+}catch (Throwable $e){
+
+    http_response_code(401);
+
+    $data_insert=array(
+        //"data" => $data_from_server,
+        "jwt" => $jwt,
+        "status" => "error",
+        "message" => $e->getMessage()
+    );
+    
+}
+
+echo json_encode($data_insert);

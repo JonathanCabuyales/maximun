@@ -39,7 +39,15 @@ try {
 
     $data=array(); 
 
-    $query = "SELECT u.nombres, u.apellidos, s.id_usuario,s.id_sueldos, s.sueldo, s.diastrabajados, s.horasextras, s.calculo_horas, s.tipohoras,s.bonostransporte, s.bonosalimentacion, s.otrosingresos, s.decimotercer, s.decimocuarto, s.totalingresos, s.iessindividual, s.iesspatronal, s.iesstotal, s.anticipos, s.prestamos_oficina, s.prestamo_hipotecario, s.prestamo_quirografario, s.otrosegresos, s.total_egresos, s.neto_recibir, s.contrato, s.aprobado, s.actafiniquito, s.create_at FROM sueldos s, usuarios u WHERE s.id_usuario = u.id_usuario
+    $query = "SELECT u.nombres, u.apellidos, s.id_usuario,s.id_sueldos, 
+    s.sueldo, s.diastrabajados, s.horasextras, s.calculo_horas, s.tipohoras,
+    s.bonostransporte, s.bonosalimentacion, s.otrosingresos, s.decimotercer, 
+    s.decimocuarto, s.totalingresos, s.iessindividual, s.iesspatronal, 
+    s.iesstotal, s.anticipos, s.prestamos_oficina, s.prestamo_hipotecario, 
+    s.prestamo_quirografario, s.otrosegresos, s.total_egresos, s.neto_recibir, 
+    s.contrato, s.aprobado, s.actafiniquito, s.create_at, s.mes_rol
+    FROM sueldos s, usuarios u 
+    WHERE s.id_usuario = u.id_usuario
     AND s.create_at BETWEEN '$fecha1 00:00:00' AND '$fecha2 23:59:59'";
 
     $get = mysqli_query($con, $query);

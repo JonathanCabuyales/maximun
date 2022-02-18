@@ -27,9 +27,11 @@ try {
 
     include ("../conexion/bd.php");
 
-    $query = "SELECT * FROM usuarios
-WHERE rol != 'ADMIN'
-AND rol != 'EMAPA'";
+    $query = "SELECT * FROM usuarios usu, estado_usuario esusu 
+    WHERE usu.id_usuario = esusu.id_usuario 
+    AND usu.rol != 'ADMIN' 
+    AND usu.rol != 'EMAPA' 
+    AND esusu.descripcion_esusu = 'ACTIVO'";
 
     $get = mysqli_query($con, $query);
     

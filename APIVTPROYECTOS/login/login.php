@@ -25,9 +25,11 @@ $password = $password2;
 
 $data=array(); 
 
-$query = "SELECT nombres, apellidos, rol, usuario, id_usuario, email, fotoperfil FROM usuarios
-WHERE usuario = '$usuario'
-AND contrasenia = '$password'";
+$query = "SELECT usu.nombres, usu.apellidos, usu.rol, usu.usuario, usu.id_usuario, usu.email, usu.fotoperfil 
+FROM usuarios usu, estado_usuario esusu
+WHERE usu.usuario = '$usuario'
+AND usu.contrasenia = '$password'
+AND esusu.descripcion_esusu = 'ACTIVO'";
 
 $get = mysqli_query($con, $query);
 $data = array();
@@ -65,7 +67,7 @@ if ($res!=[]) {
 
 	$iat = time(); // time of token issued at
 	$nbf = $iat + 10; //not before in seconds
-	$exp = $iat + 28800; // expire time of token in seconds
+	$exp = $iat + 43200; // expire time of token in seconds
 
 	$token = array(
 		"iss" => "https://contable.vt-proyectos.com.ec",

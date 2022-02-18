@@ -18,9 +18,7 @@ define ('ALGORITMO', 'HS256'); // Algoritmo utilizado para firmar el token
 $json = file_get_contents('php://input');
 
 $jwt = $_GET['token'];
-
-$fechainicio = $_GET["fechainicio"];
-$fechafin = $_GET["fechafin"];
+$fecha = $_GET['fecha'];
 
 $data=array(); 
 
@@ -33,8 +31,15 @@ try {
 
     include ("../conexion/bd.php");
 
-    $query = "SELECT u.nombres, u.apellidos, u.ciruc, s.id_usuario,s.id_sueldos, s.sueldo, s.diastrabajados, s.horasextras, s.calculo_horas, s.tipohoras,s.bonostransporte, s.bonosalimentacion, s.otrosingresos, s.decimotercer, s.decimocuarto, s.totalingresos, s.iessindividual, s.iesspatronal, s.iesstotal, s.anticipos, s.prestamos_oficina, s.prestamo_hipotecario, s.prestamo_quirografario, s.otrosegresos, s.total_egresos, s.neto_recibir, s.contrato, s.aprobado, s.actafiniquito, s.create_at FROM sueldos s, usuarios u WHERE s.id_usuario = u.id_usuario
-    AND s.create_at BETWEEN '$fechainicio' AND '$fechafin'";
+    $query = "SELECT u.nombres, u.apellidos, u.ciruc, s.id_usuario,s.id_sueldos, s.sueldo, 
+    s.diastrabajados, s.horasextras, s.calculo_horas, s.tipohoras,s.bonostransporte, 
+    s.bonosalimentacion, s.otrosingresos, s.decimotercer, s.decimocuarto, s.totalingresos, 
+    s.iessindividual, s.iesspatronal, s.iesstotal, s.anticipos, s.prestamos_oficina, 
+    s.prestamo_hipotecario, s.prestamo_quirografario, s.otrosegresos, s.total_egresos, 
+    s.neto_recibir, s.contrato, s.aprobado, s.actafiniquito, s.mes_rol, s.create_at 
+    FROM sueldos s, usuarios u 
+    WHERE s.id_usuario = u.id_usuario
+    AND s.mes_rol = '$fecha'";
 
     $get = mysqli_query($con, $query);
 

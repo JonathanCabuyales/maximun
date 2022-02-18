@@ -1,13 +1,38 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+require_once '../jwt/src/BeforeValidException.php';
+require_once '../jwt/src/ExpiredException.php';
+require_once '../jwt/src/SignatureInvalidException.php';
+require_once '../jwt/src/JWT.php';
+use \Firebase\JWT\JWT;
 
-include ("../conexion/bd.php");
+define ('SECRET_KEY', '4956andres.'); // la clave secreta puede ser una cadena aleatoria y mantenerse en secreto para cualquier persona
+define ('ALGORITMO', 'HS256'); // Algoritmo utilizado para firmar el token
 
-$query = "SELECT inv.id_inv, inv.id_proser, inv.id_usuario, nombres, apellidos, descripcion_proser, 
+$json = file_get_contents('php://input');
+ 
+$jsonInventario = json_decode($json);
+
+if (!$jsonInventario) {
+    exit("No hay datos para registrar");
+}
+
+$jwt = $jsonInventario;
+
+try {
+    JWT::$leeway = 10;
+    $decoded = JWT::decode($jwt, SECRET_KEY, array(ALGORITMO));
+
+    // Access is granted. Add code of the operation here 
+
+    include ("../conexion/bd.php");
+
+    $query = "SELECT inv.id_inv, inv.id_proser, inv.id_usuario, nombres, apellidos, descripcion_proser, 
 stockasignado_inv, stockentregado_inv, cantidad_proser, cantidadfinal_proser, categoria_proser, 
 codigo_proser, nombre_proser, precio_proser, proyectos_inv
 FROM inventario_asignado inv, usuarios usu, productos_servicios proser
@@ -24,12 +49,29 @@ if ($get) {
         $data[] = array_map('utf8_encode', $fila);
     }
 }else{
-    echo "fallo no hay nada";
-    $res = null;
-    echo mysqli_error($con);
+    $res = array();
 }
 
 $res = $data;
 
-echo json_encode($res); 
-echo mysqli_error($con);
+
+    $data_insert=array(
+        "data" => $res,
+        "status" => "success",
+        "message" => "Request authorized"
+    );  
+
+}catch (Throwable $e){
+
+    http_response_code(401);
+
+    $data_insert=array(
+        //"data" => $data_from_server,
+        "jwt" => $jwt,
+        "status" => "error",
+        "message" => $e->getMessage()
+    );
+    
+}
+
+echo json_encode($data_insert);
