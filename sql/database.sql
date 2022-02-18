@@ -36,12 +36,13 @@ CREATE TABLE cuentas(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE proveedores(
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  nombres VARCHAR(50) NOT NULL,
-  ciruc VARCHAR (13) NOT NULL,
-  direccion VARCHAR (100) NOT NULL,
-  email VARCHAR (50) NOT NULL,
-  telefono VARCHAR (10) NOT NULL,
+  id_prove INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  razonsocial_prove VARCHAR(200) NOT NULL,
+  ciruc_prove VARCHAR (13) NOT NULL,
+  direccion_prove VARCHAR (100) NOT NULL,
+  email_prove VARCHAR (50) NOT NULL,
+  telefono_prove VARCHAR (10) NOT NULL,
+  descripcion_prove VARCHAR(200) NOT NULl,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -51,9 +52,10 @@ CREATE TABLE productos_servicios (
   categoria_proser VARCHAR (100) NOT NULL,
   nombre_proser VARCHAR(100) NOT NULL,
   descripcion_proser VARCHAR(100) NOT NULL,
+  lote_proser TEXT NOT NULL,
+  preciosugerido_proser FLOAT NOT NULL,
   precio_proser FLOAT NOT NULL,
   cantidad_proser INT (5) NOT NULL,
-  cantidadfinal_proser INT (10),
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -85,19 +87,24 @@ CREATE TABLE tipocliente(
 -- seccion de facturas
 CREATE TABLE facturas(
   id_fac INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  claveacceso_fac TEXT NOT NULL,
-  numero_fac INT NOT NULL,
-  serie_fac INT NOT NULL,
-  id_cli INT NOT NULL,
   id_usuario INT NOT NULL,
-  servicios_fac TEXT NOT NULL,
-  impuesto_fac  FLOAT NOT NULL,
-  fondosocial_fac FLOAT NOT NULL,
-  interes_fac FLOAT NOT NULL,
-  neto_fac FLOAT NOT NULL,
-  total_fac FLOAT NOT NULL,
-  metodo_fac VARCHAR(50) NOT NULL,
-  mesesatraso_fac INT NOT NULL,
+  numeroautorizacion TEXT NOT NULL,
+  secuencial INT NOT NULL,
+  items TEXT NOT NULL,
+  subtotal0 FLOAT NOT NULL,
+  subtotal12 FLOAT NOT NULL,
+  ivatotal FLOAT NOT NULL,
+  totalsinimpu FLOAT NOT NULL,
+  totalFactura FLOAT NOT NULL,
+  formapago VARCHAR(5) NOT NULL,
+  tipoidentificacion VARCHAR(5) NOT NULL,
+  nombre_cliente VARCHAR(100) NOT NULL,
+  direccion_cliente VARCHAR(100) NOT NULL,
+  ciruc_cliente VARCHAR(13) NOT NULL,
+  email_cliente VARCHAR(100) NOT NULL,
+  nombre_empresa VARCHAR(100) NOT NULL,
+  ciruc_empresa VARCHAR(100) NOT NULL,
+  direccion_empresa VARCHAR(100) NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -124,10 +131,8 @@ CREATE TABLE prefactura(
 
 CREATE TABLE compras(
   id_com INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_prove INT NOT NULL,
   tipocomprobante_com VARCHAR(50) NOT NULL,
-  proveedor_com VARCHAR(50) NOT NULL,
-  proveedorciruc_com VARCHAR(50) NOT NULL,
-  direccionproveedor_com VARCHAR(50) NOT NULL,
   emsion_com VARCHAR(50) NOT NULL,
   registro_com VARCHAR(50) NOT NULL,
   serie_com VARCHAR(50) NOT NULL,
@@ -385,14 +390,50 @@ CREATE TABLE proyeccion (
   id_pro INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   id_usuario INT NOT NULL,
   descripcion_pro TEXT NOT NULL,
+  informacion_pro TEXT NOT NULL,
   estado_pro VARCHAR(100) NOT NULL,
   tiempo_pro TEXT NOT NULL,
+  fechas_pro TEXT NOT NULL,
   viabilidad_pro VARCHAR(100) NOT NULL,
   valores_pro TEXT NOT NULL,
   empleados_pro TEXT NOT NULL,
   equipo_pro TEXT NOT NULL,
   insumos_pro TEXT NOT NULL,
   rendimiento_pro TEXT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE hojapedido (
+  id_hoja INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_pro TEXT NOT NULL,
+  hojapedido_hoja TEXT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE actividades (
+  id_act INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_pro TEXT NOT NULL,
+  actividades_act TEXT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE notas(
+  id_nota INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  descripcion_nota TEXT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE registros_eliminados(
+  id_reel INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  detalle_reel TEXT NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE firmas(
+  id_fir INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  foto_fir TEXT NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

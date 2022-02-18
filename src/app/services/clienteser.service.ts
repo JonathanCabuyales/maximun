@@ -32,5 +32,10 @@ export class ClienteserService {
     this.resultado = this.http.put(`${this.baseUrl}/clientes/clientes_update.php`, JSON.stringify(cliente));
     return this.resultado;
   }
+
+  verificarCliente(token: any, ciruc_cli: any){
+    this.resultado = this.http.get(`${this.baseUrl}/clientes/clientes_verificar.php?token=${token}&ciruc_cli=${ciruc_cli}`);
+    return this.resultado;
+  }
   
 }

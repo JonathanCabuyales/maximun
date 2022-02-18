@@ -75,7 +75,9 @@ export class DialognuevomedidorComponent implements OnInit {
       precio_proser: 0,
       cantidad_proser: 0,
       cantidadfinal_proser: 0,
-      created_at: new Date()
+      preciosugerido_proser: '',
+      IVA_proser: '0',
+      lote_proser: '',
     };
 
     this.prefactura = {

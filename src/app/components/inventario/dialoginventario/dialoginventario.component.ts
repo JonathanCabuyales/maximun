@@ -10,6 +10,7 @@ import { DialogProSerComponent } from '../../productosservicios/dialog-pro-ser/d
 import { DialogconfirmacionComponent } from '../../productosservicios/dialogconfirmacion/dialogconfirmacion.component';
 import { CookieService } from 'ngx-cookie-service';
 import { BdemapaService } from 'src/app/services/bdemapa.service';
+import { DialogeditinventarioComponent } from '../dialogeditinventario/dialogeditinventario.component';
 
 @Component({
   selector: 'app-dialoginventario',
@@ -60,7 +61,10 @@ export class DialoginventarioComponent implements OnInit {
       precio_proser: 0,
       cantidad_proser: 1,
       cantidadfinal_proser: 0,
-      created_at: new Date()
+      preciosugerido_proser: '',
+      lote_proser: '',
+      IVA_proser: '0',
+      token: ''
     }
   }
 
@@ -72,57 +76,59 @@ export class DialoginventarioComponent implements OnInit {
   // funcion para abrir el dialogo y guardar el producto o servicio
   createProSer() {
     const dialogRef = this.dialog.open(DialogProSerComponent, {
-      width: '450px'
+      width: '550px'
     });
 
     dialogRef.afterClosed().subscribe(res => {
 
       if (res != undefined) {
         this.nuevoProductoServicio = res;
-        this.nuevoProductoServicio.cantidadfinal_proser = this.nuevoProductoServicio.cantidad_proser;
+        // this.nuevoProductoServicio.cantidadfinal_proser = this.nuevoProductoServicio.cantidad_proser;
         this.nuevoProductoServicio.token = this.token;
-        // console.log(res);
-        
+        // console.log(res);        
+
         this._prodser.createProdSer(this.nuevoProductoServicio).subscribe(res => {
 
           if (res.data) {
             this.toastSuccess("Registro guardado exitosamente!!!");
             this.loadProdSer();
-          }else{
+          } else {
             this.toastError('No hemos podido registrar el item por favor intentalo más tarde');
           }
 
-        }, error => {
-          this.toastError(error);
-        }
-        );
+        });
       }
     });
   }
 
-  editProser(prodserUpdate: ProsernuevoI) {
+  // primero se abre el dialogo de editar y con la repuesta se actualiza 
+  editarProdser(prodser) {
 
-    const dialogRef = this.dialog.open(DialogProSerComponent, {
-      width: '450px',
-      data: prodserUpdate
+    console.log(prodser);
+
+
+    const dialogRef = this.dialog.open(DialogeditinventarioComponent, {
+      width: '550px',
+      data: prodser
     }
     );
 
     dialogRef.afterClosed().subscribe(res => {
 
-      if (res != undefined) {
-        this.prodSerAct = res;
-        this._prodser.updateProdSer(this.prodSerAct).subscribe(res => {
-          if (res == true) {
-            this.toastSuccess("actualizado");
+      if (res !== undefined) {
+
+        res.token = this.token;
+        this._prodser.updateProdSer(res).subscribe(res => {
+          if (res.data) {
+            this.toastSuccess("Hemos actualizado correctamente la información");
             this.loadProdSer();
+          } else {
+            this.toastError("No hemos podido actualizar la información por favor intentalo nuevamente");
           }
-        }, error => {
-          this.toastError(error);
         });
       }
-    });
 
+    });
   }
 
   deleteProdSer(id_proser: any) {
@@ -146,8 +152,9 @@ export class DialoginventarioComponent implements OnInit {
   }
 
   loadProdSer() {
+
     this._prodser.getAll(this.token).subscribe(res => {
-      
+
       if (res.data.length) {
         this.productosServicios = res.data;
         this.dataSource = new MatTableDataSource(this.productosServicios);
@@ -187,8 +194,8 @@ export class DialoginventarioComponent implements OnInit {
 
   }
 
-  excel(){
-    this._excel.exportToExcel(this.productosServicios,'Inventario');
+  excel() {
+    this._excel.exportToExcel(this.productosServicios, 'Inventario');
   }
 
   // funcion para filtro de busqueda

@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogitemscompraComponent } from '../dialogitemscompra/dialogitemscompra.component';
 import { DialogitemsnotaventaComponent } from '../dialogitemsnotaventa/dialogitemsnotaventa.component';
 import { CookieService } from 'ngx-cookie-service';
+import { DialogproveedorescomprasComponent } from '../../inventario/dialogproveedorescompras/dialogproveedorescompras.component';
+import { ProveedorI } from 'src/app/models/proveedor/proveedor.interface';
 
 @Component({
   selector: 'app-dialogcompras',
@@ -41,6 +43,9 @@ export class DialogcomprasComponent implements OnInit {
   showbtnNota: boolean = false;
   showComprobante: boolean = true;
   showBorrarItems: boolean = false;
+  
+  // variable para el proveedor
+  proveedor: ProveedorI;
 
   // variable para el token
   token: string = '';
@@ -64,14 +69,14 @@ export class DialogcomprasComponent implements OnInit {
       precio_proser: 0,
       cantidad_proser: 1,
       cantidadfinal_proser: 0,
-      created_at: new Date()
+      preciosugerido_proser: '',
+      lote_proser: '',
+      IVA_proser: '0',
     }
 
     this.compra = {
+      id_prove: '',
       tipocomprobante_com: '0',
-      proveedor_com: '',
-      proveedorciruc_com: '',
-      direccionproveedor_com: '',
       emsion_com: '',
       registro_com: '',
       serie_com: '',
@@ -84,7 +89,16 @@ export class DialogcomprasComponent implements OnInit {
       ICE_com: '',
       devolucionIVA: '',
       costogasto_com: '0'
+    }
 
+    this.proveedor = {
+      id_prove: '',
+      razonsocial_prove: '',
+      ciruc_prove: '',
+      direccion_prove: '',
+      email_prove: '',
+      telefono_prove: '',
+      descripcion_prove: ''
     }
 
     this.showComprobante = false;
@@ -94,25 +108,34 @@ export class DialogcomprasComponent implements OnInit {
   }
 
   grabarCompra() {
+    
     if (this.compra.tipocomprobante_com == '') {
       Swal.fire({
         icon: 'warning',
         confirmButtonColor: '#1d1d24',
-        text: 'Debe seleccionar el tipo de comprobante'
+        text: 'Debes seleccionar el tipo de comprobante'
       });
-    } else if (this.compra.proveedor_com == '' || this.compra.proveedorciruc_com == '' || this.compra.direccionproveedor_com == ''
-      || this.compra.serie_com == '' || this.compra.secuencia_com == '' || this.compra.autorizacionSRI_com == '' ||
-      this.compra.emsion_com == '' || this.compra.formapago_com == '0' || this.compra.costogasto_com == '0') {
+    } else if (this.proveedor.razonsocial_prove == '') {
+      // || this.compra.emsion_com == '' || this.compra.formapago_com == '0' || this.compra.costogasto_com == '0'
+      // || this.compra.serie_com == '' || this.compra.secuencia_com == '' || this.compra.autorizacionSRI_com == '' 
       Swal.fire({
         icon: 'warning',
         confirmButtonColor: '#1d1d24',
-        text: 'Debe todos los datos del comprobante para poder continuar con el registro'
+        text: 'Debes cargar la información del proveedor para continuar'
       });
+    } else if(this.compra.emsion_com == ''){
+
+      Swal.fire({
+        icon: 'warning',
+        confirmButtonColor: '#1d1d24',
+        text: 'Debes seleccionar la fecha de emsion.'
+      });
+
     } else if (!this.listaItems.length) {
       Swal.fire({
         icon: 'warning',
         confirmButtonColor: '#1d1d24',
-        text: 'Debe ingresar el concepto de la compra'
+        text: 'Debes ingresar por lo menos un concepto de compra'
       });
     } else {
 
@@ -124,6 +147,7 @@ export class DialogcomprasComponent implements OnInit {
 
         this.compra.comceptos_com = objeto;
         this.compra.token = this.token;
+        this.compra.id_prove = this.proveedor.id_prove;
         
         console.log(this.compra);
 
@@ -138,26 +162,17 @@ export class DialogcomprasComponent implements OnInit {
           }
         });
 
-
-
-        // console.log(this.listaItems);
-        // AQUI CONVERTIR JSON A CADENA Y VICEVERSA
-        // console.log(JSON.stringify(this.listaItems));
-        // let objeto = JSON.stringify(this.productosServicios);
-        // console.log(JSON.parse(objeto));
-
       } else if (this.compra.costogasto_com == 'COSTO') {
 
         let objeto = JSON.stringify(this.listaItems);
 
         this.compra.comceptos_com = objeto;
         this.compra.token = this.token;
+        this.compra.id_prove = this.proveedor.id_prove;        
 
         this._compras.createCompra(this.compra).subscribe(res => {
 
           if (res.data) {
-
-            console.log(this.listaItems);
 
             for (let i = 0; i < this.listaItems.length; i++) {
 
@@ -168,9 +183,13 @@ export class DialogcomprasComponent implements OnInit {
               this.nuevoProductoServicio.categoria_proser = this.listaItems[i].categoria;
               this.nuevoProductoServicio.nombre_proser = this.listaItems[i].descripcion;
               this.nuevoProductoServicio.codigo_proser = this.listaItems[i].codigobarras;
+              this.nuevoProductoServicio.preciosugerido_proser = this.listaItems[i].precio;
+              this.nuevoProductoServicio.lote_proser = this.listaItems[i].lote;
+              this.nuevoProductoServicio.IVA_proser = this.listaItems[i].iva;
               this.nuevoProductoServicio.token = this.token;
+              this.nuevoProductoServicio.id_prove = this.proveedor.id_prove;
 
-              console.log(this.nuevoProductoServicio);
+              // console.log(this.nuevoProductoServicio);
 
               this._proser.createProdSer(this.nuevoProductoServicio).subscribe(res => {
               });
@@ -211,12 +230,14 @@ export class DialogcomprasComponent implements OnInit {
   items() {
 
     const dialogRef = this.dialog.open(DialogitemscompraComponent, {
-      width: '450px',
+      width: '550px',
     }
     );
 
     dialogRef.afterClosed().subscribe(res => {
 
+      console.log(res);
+      
       if (res != undefined) {
 
         if (!this.listaItems.length) {
@@ -316,6 +337,22 @@ export class DialogcomprasComponent implements OnInit {
     }
   }
 
+  cargarProveedor(){
+
+    const dialogRef = this.dialog.open(DialogproveedorescomprasComponent, {
+      width: '70%'
+    }
+    );
+
+    dialogRef.afterClosed().subscribe(res=>{
+
+      if(res != undefined){
+        this.proveedor = res;
+      }
+
+    })
+  }
+
   // seccion para generar comprobantes de retencion
   generarRetencion(){
     
@@ -349,10 +386,8 @@ export class DialogcomprasComponent implements OnInit {
   borrarCompra() {
 
     this.compra = {
+      id_prove: '',
       tipocomprobante_com: '0',
-      proveedor_com: '',
-      proveedorciruc_com: '',
-      direccionproveedor_com: '',
       emsion_com: '',
       registro_com: '',
       serie_com: '',

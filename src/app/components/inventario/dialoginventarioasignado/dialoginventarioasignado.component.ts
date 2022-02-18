@@ -53,24 +53,32 @@ export class DialoginventarioasignadoComponent implements OnInit {
     this.proSerVerificar = {
       id_proser: 0,
       codigo_proser: '',
-      categoria_proser: '',
+      categoria_proser: '0',
       nombre_proser: '',
       descripcion_proser: '',
       precio_proser: 0,
       cantidad_proser: 0,
       cantidadfinal_proser: 0,
-      created_at: new Date()
+      preciosugerido_proser: '',
+      lote_proser: '',
+      IVA_proser: '0',
+      token: ''
+
     };
     this.prodSerAct = {
+      
       id_proser: 0,
       codigo_proser: '',
-      categoria_proser: '',
+      categoria_proser: '0',
       nombre_proser: '',
       descripcion_proser: '',
       precio_proser: 0,
-      cantidad_proser: 1,
+      cantidad_proser: 0,
       cantidadfinal_proser: 0,
-      created_at: new Date()
+      preciosugerido_proser: '',
+      lote_proser: '',
+      IVA_proser: '0',
+      token: ''
     }
   }
 
@@ -138,9 +146,8 @@ export class DialoginventarioasignadoComponent implements OnInit {
                 this.prodSerAct.descripcion_proser = this.proSerVerificar[0].descripcion_proser;
                 this.prodSerAct.precio_proser = this.proSerVerificar[0].precio_proser;
                 this.prodSerAct.cantidad_proser = this.proSerVerificar[0].cantidad_proser;
-                this.prodSerAct.cantidadfinal_proser = parseInt(stockEntregado) + parseInt(this.proSerVerificar[0].cantidadfinal_proser);
+                // this.prodSerAct.cantidadfinal_proser = parseInt(stockEntregado) + parseInt(this.proSerVerificar[0].cantidadfinal_proser);
                 this.prodSerAct.token = this.token;
-                delete this.prodSerAct.created_at;
 
                 this._proser.updateProdSer(this.prodSerAct).subscribe(res => {
                   if (res.data) {

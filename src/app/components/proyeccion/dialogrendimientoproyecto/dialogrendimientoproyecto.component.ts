@@ -184,6 +184,8 @@ export class DialogrendimientoproyectoComponent implements OnInit {
       equipo_pro: '',
       insumos_pro: '',
       rendimiento_pro: '',
+      hojapedido_pro: '',
+      actividades_pro: '',
       token: ''
     }
 
@@ -288,6 +290,9 @@ export class DialogrendimientoproyectoComponent implements OnInit {
     this.totalEmpleadosSueldos = 0;
     this.totalEquipoMinimo = '0';
     this.totalInsumos = '0';
+
+    console.log(this.totalTiempoProyecto);
+    
 
     for (let i = 0; i < this.listaEmpleados.length; i++) {
 
@@ -800,9 +805,12 @@ export class DialogrendimientoproyectoComponent implements OnInit {
         this.proyeccion.estado_pro = 'NO APROBADO';
         this.proyeccion.informacion_pro = this.informacionadicional;
         this.proyeccion.fechas_pro = '[]';
+        this.proyeccion.hojapedido_pro = '[]';
+        this.proyeccion.actividades_pro = '[]';
   
   
         this._proyeccion.createProyeccion(this.proyeccion).subscribe(res=>{
+          console.log(res);
           
           if(res.data){
             this.toastSuccess("Hemos guardado la proyección correctamente");

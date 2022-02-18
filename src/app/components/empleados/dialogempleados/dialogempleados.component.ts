@@ -77,18 +77,25 @@ export class DialogempleadosComponent implements OnInit {
 
     // abro el dialogo para registrar al nuevo empleado....
     const dialogRef = this.dialog.open(DialogempleadoComponent, {
-      width: '650px'
+      width: '650px',
+      height: '100%'
     });
 
     dialogRef.afterClosed().subscribe(res => {
 
       if (res != undefined) {
         this.empleadoNuevo = res;
+        this.empleadoNuevo = this.token;
+
         this._empleado.createEmpleado(this.empleadoNuevo).subscribe(res => {
 
-          if (res == true) {
+          console.log(res);
+          
+          if (res.data) {
+
             this.loadEmpleados();
-            this.toastSuccess("grabado");
+            this.toastSuccess("Hemos guardado el registro con exito");
+
           } else {
             this.loadEmpleados();
             this.toastError("No se pudo registrar el Empleado");

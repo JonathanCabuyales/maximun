@@ -5,6 +5,8 @@ export interface ActualizarstockI{
     nombre_proser: string,
     descripcion_proser: string,
     precio_proser: number,
+    preciosugerido_proser: string,
     cantidad_proser: number,
-    cantidadfinal_proser: number
+    cantidadfinal_proser: number,
+    lote_proser: string,
 }

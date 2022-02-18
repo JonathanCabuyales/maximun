@@ -38,7 +38,43 @@ export class HomeComponent implements OnInit {
       this.rol = res.data.rol;
       this.foto = res.data.foto;      
     });
+
+    // añado javascript desde ts
+  
+    document.getElementById("btn_open").addEventListener("click", open_close_menu);
     
+    var side_menu = document.getElementById("menu_side");
+    var btn_open = document.getElementById("btn_open");
+    var body = document.getElementById("body");
+
+    function open_close_menu(){
+      body.classList.toggle("body_menu");
+      side_menu.classList.toggle("menu__side_move");
+    }
+
+    // para anchos menores a 760px recarga la pagina
+    // se oculata el menu automaticamente
+    if(window.innerWidth < 760){
+      body.classList.remove("body_menu");
+      side_menu.classList.remove("menu__side_move");
+    }
+
+
+    // menu adaptable
+    window.addEventListener("rezize", function(){
+      
+      if(window.innerWidth > 760){
+        body.classList.remove("body_menu");
+        side_menu.classList.remove("menu__side_menu");
+      }
+
+      if(window.innerWidth < 760){
+        body.classList.add("body_menu");
+        side_menu.classList.add("menu__side_menu");
+      }
+
+    });
+
   }
 
   mouseenter() {
@@ -53,6 +89,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  cerrasesion(){
+    this._cookie.deleteAll();
+    this.router.navigate(['']).then(res=>{
+      this.toastSuccess("Sesión cerrada exitosamente");
+    });
+  }
+  
   // perfilUsuario(){
   //   const dialogRef = this.dialog.open(DialogperfilusuarioComponent, {
   //     width: '550px'

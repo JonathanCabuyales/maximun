@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatAccordion } from '@angular/material/expansion';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrService } from 'ngx-toastr';
 import { PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import { LoginService } from 'src/app/services/login.service';
 import { ProyeccionService } from 'src/app/services/proyeccion/proyeccion.service';
@@ -19,24 +21,41 @@ export class DialogmisproyeccionesComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
 
   token: string = '';
 
+  hojapedido = {
+    detalle: '',
+    cantidad: '',
+    estado: 'NO APROBADO'
+  }
+
   // variable para guardar las proyecciones
   listaproyecciones: any[];
+  listahojapedido: any[];
 
-  constructor(private _cookie: CookieService,
+  lastIndex: number = 0;
+
+  constructor(public dialogRef: MatDialogRef<DialogmisproyeccionesComponent>, @Inject(MAT_DIALOG_DATA)
+    public proyeccion: any,
+    private _cookie: CookieService,
     private _login: LoginService,
     private _proyeccion: ProyeccionService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.token = this._cookie.get("token");
+
+    this.token = this._cookie.get("token");    
 
     this._login.getuserdata(this.token).subscribe(res => {
       // el id de usuario desde el token es "id"
       this._proyeccion.getProyeccionesUsuario(this.token, res.data.id).subscribe(res => {
+        
         this.listaproyecciones = res.data;
+
+        console.log(res);
 
         if (this.listaproyecciones.length) {
 
@@ -48,6 +67,8 @@ export class DialogmisproyeccionesComponent implements OnInit {
             this.listaproyecciones[i].rendimiento_pro = JSON.parse(res.data[i].rendimiento_pro);
             this.listaproyecciones[i].valores_pro = JSON.parse(res.data[i].valores_pro);
             this.listaproyecciones[i].fechas_pro = JSON.parse(res.data[i].fechas_pro);
+            // this.listaproyecciones[i].actividades_act = JSON.parse(res.data[i].actividades_act);
+            // this.listaproyecciones[i].hojapedido_hoja = JSON.parse(res.data[i].hojapedido_hoja);
 
           }
 
@@ -61,8 +82,6 @@ export class DialogmisproyeccionesComponent implements OnInit {
   }
 
   guardarFechas(proyeccion){
-
-    console.log(proyeccion);
     
     const dialogRef = this.dialog.open(DialogfechasComponent, {
       width: '650px',
@@ -80,7 +99,18 @@ export class DialogmisproyeccionesComponent implements OnInit {
     
   }
 
+
+  selectItem(item){
+
+    this.dialogRef.close(item);
+
+  }
+
+
   generarPdf(proyeccion) {
+
+    console.log(proyeccion);
+    
 
     const pdf = new PdfMakeWrapper();
 
@@ -147,14 +177,25 @@ export class DialogmisproyeccionesComponent implements OnInit {
 
       totalTiempoProyecto = (parseFloat(totalTiempoProyecto) + parseFloat(proyeccion.empleados_pro[i].total)).toFixed(2);
       pdf.add(new Table([
-        [{ text: proyeccion.empleados_pro[i].empleado }, { text: proyeccion.empleados_pro[i].cantidad }, { text: proyeccion.empleados_pro[i].remuneracion }, { text: proyeccion.empleados_pro[i].decimotercer }, { text: proyeccion.empleados_pro[i].decimocuarto }, { text: proyeccion.empleados_pro[i].total }]
+        [{ text: proyeccion.empleados_pro[i].empleado }, 
+        { text: proyeccion.empleados_pro[i].cantidad }, 
+        { text: proyeccion.empleados_pro[i].remuneracion }, 
+        { text: proyeccion.empleados_pro[i].decimotercer }, 
+        { text: proyeccion.empleados_pro[i].decimocuarto }, 
+        { text: proyeccion.empleados_pro[i].total }]
       ]).alignment('center').fontSize(10).widths(['20%', '16%', '16%', '16%', '16%', '16%']).end);
     }
 
     pdf.add(new Table([
       // ['', '', '', { text: 'Total Mensual', fillColor: '#1d1d24', color: '#fff' }, { text: this.totalEmpleadosSueldos + ' $', fillColor: '#1d1d24', color: '#fff' }],
-      ['', '', '', { text: 'Total Tiempo Proyecto', fillColor: '#1d1d24', color: '#fff' }, { text: totalTiempoProyecto, fillColor: '#1d1d24', color: '#fff' }]
+      ['', '', '', { text: 'Total Tiempo Mensual', fillColor: '#1d1d24', color: '#fff' }, { text: totalTiempoProyecto, fillColor: '#1d1d24', color: '#fff' }]
     ]).layout('noBorders').alignment('center').fontSize(10).widths(['20%', '16%', '16%', '32%', '16%']).end);
+    pdf.add(new Table([
+      // ['', '', '', { text: 'Total Mensual', fillColor: '#1d1d24', color: '#fff' }, { text: this.totalEmpleadosSueldos + ' $', fillColor: '#1d1d24', color: '#fff' }],
+      ['', '', '', { text: 'Total Tiempo Proyecto', fillColor: '#1d1d24', color: '#fff' }, 
+      { text: parseFloat(totalTiempoProyecto) * parseInt(totalTiempoProyecto), fillColor: '#1d1d24', color: '#fff' }]
+    ]).layout('noBorders').alignment('center').fontSize(10).widths(['20%', '16%', '16%', '32%', '16%']).end);
+    
     pdf.add(new Txt('\n').end);
     pdf.add(new Txt('\n').end);
     pdf.add(new Txt('\n').end);
@@ -275,6 +316,27 @@ export class DialogmisproyeccionesComponent implements OnInit {
     // Fin del pdf
     pdf.create().open();
 
+  }
+
+
+  // mensajes 
+
+  toastSuccess(mensaje: string) {
+    this.toastr.success(mensaje, 'Exito', {
+      timeOut: 3000,
+    });
+  }
+
+  toastWarning(mensaje: string) {
+    this.toastr.warning(mensaje, 'Advertencia', {
+      timeOut: 4500,
+    });
+  }
+
+  toastError(mensaje: string) {
+    this.toastr.error(mensaje, 'ERROR', {
+      timeOut: 3000,
+    });
   }
 
   // funcion para filtro de busqueda

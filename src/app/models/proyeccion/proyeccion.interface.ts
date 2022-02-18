@@ -11,5 +11,7 @@ export interface ProyeccionI {
     insumos_pro: string,
     rendimiento_pro: string,
     estado_pro: string,
+    hojapedido_pro: string, 
+    actividades_pro: string,
     token?: string
 }

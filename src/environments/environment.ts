@@ -57,8 +57,8 @@ export const environment = {
   //   measurementId: "G-QGQDJQX0RV"
   // },
 
-  baseUrl: "https://contable.vt-proyectos.com.ec/APIVTPROYECTOS",
-  // baseUrl: "http://localhost/VT/APIVTPROYECTOS",
+  // baseUrl: "https://contable.vt-proyectos.com.ec/APIVTPROYECTOS",
+  baseUrl: "http://localhost/VT/APIVTPROYECTOS",
 };
 
 /*

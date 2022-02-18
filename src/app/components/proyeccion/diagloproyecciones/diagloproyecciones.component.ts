@@ -50,6 +50,8 @@ export class DiagloproyeccionesComponent implements OnInit {
   loadProyecciones() {
     this._proyeccion.getProyecciones(this.token).subscribe(res => {
 
+      console.log(res);
+      
       this.listaproyecciones = res.data;
 
       if (this.listaproyecciones.length) {
@@ -243,7 +245,12 @@ export class DiagloproyeccionesComponent implements OnInit {
 
     pdf.add(new Table([
       // ['', '', '', { text: 'Total Mensual', fillColor: '#1d1d24', color: '#fff' }, { text: this.totalEmpleadosSueldos + ' $', fillColor: '#1d1d24', color: '#fff' }],
-      ['', '', '', { text: 'Total Tiempo Proyecto', fillColor: '#1d1d24', color: '#fff' }, { text: totalTiempoProyecto, fillColor: '#1d1d24', color: '#fff' }]
+      ['', '', '', { text: 'Total Tiempo Mensual', fillColor: '#1d1d24', color: '#fff' }, { text: totalTiempoProyecto, fillColor: '#1d1d24', color: '#fff' }]
+    ]).layout('noBorders').alignment('center').fontSize(10).widths(['20%', '16%', '16%', '32%', '16%']).end);
+    pdf.add(new Table([
+      // ['', '', '', { text: 'Total Mensual', fillColor: '#1d1d24', color: '#fff' }, { text: this.totalEmpleadosSueldos + ' $', fillColor: '#1d1d24', color: '#fff' }],
+      ['', '', '', { text: 'Total Tiempo Proyecto', fillColor: '#1d1d24', color: '#fff' }, 
+      { text: parseFloat(totalTiempoProyecto) * parseInt(proyeccion.tiempo_pro), fillColor: '#1d1d24', color: '#fff' }]
     ]).layout('noBorders').alignment('center').fontSize(10).widths(['20%', '16%', '16%', '32%', '16%']).end);
     pdf.add(new Txt('\n').end);
     pdf.add(new Txt('\n').end);
@@ -346,7 +353,7 @@ export class DiagloproyeccionesComponent implements OnInit {
         ''],
       ['',
         { text: 'Total Personal', fillColor: '#1d1d24', color: '#fff' },
-        { text: totalTiempoProyecto + ' $', fillColor: '#C8C8C8', color: '#1d1d24' },
+        { text: parseFloat(totalTiempoProyecto) * parseInt(proyeccion.tiempo_pro) + ' $', fillColor: '#C8C8C8', color: '#1d1d24' },
         ''],
       ['',
         { text: 'Total Equipo Minimo', fillColor: '#1d1d24', color: '#fff' },
@@ -358,7 +365,7 @@ export class DiagloproyeccionesComponent implements OnInit {
         ''],
       ['',
         { text: 'Analisis', fillColor: '#1d1d24', color: '#fff' },
-        { text: (parseFloat(proyeccion.valores_pro.valoraCobrar) - parseFloat(totalTiempoProyecto) - parseFloat(totalEquipoMinimo) - parseFloat(totalInsumos)).toFixed(2) + ' $', fillColor: '##969FA5', color: '#fff' },
+        { text: (parseFloat(proyeccion.valores_pro.valoraCobrar) - (parseFloat(totalTiempoProyecto) * parseInt(proyeccion.tiempo_pro)) - parseFloat(totalEquipoMinimo) - parseFloat(totalInsumos)).toFixed(2) + ' $', fillColor: '##969FA5', color: '#fff' },
         '']
     ]).alignment('center').fontSize(10).layout('noBorders').widths(['20%', '30%', '30%', '20%']).end);
 

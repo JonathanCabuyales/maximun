@@ -9,5 +9,11 @@ export interface ItemsI {
     notaVenta: string,
     iva12: string,
     iva0: string,
-    total: string
+    total: string,
+    lote: string,
+    numerolote?: string,
+    nombre_proser?: string,
+    fechaelaboracion?: string,
+    fechavencimiento?: string,
+    iva?: string
 }

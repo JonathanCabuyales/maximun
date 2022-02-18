@@ -28,7 +28,8 @@ export class DialogitemsnotaventaComponent implements OnInit {
       notaVenta: '0',
       iva12: '0',
       iva0: '0',
-      total: '0'
+      total: '0',
+      lote: ''
     }
   }
 

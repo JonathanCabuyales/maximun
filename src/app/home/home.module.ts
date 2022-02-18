@@ -18,6 +18,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -38,7 +41,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatMenuModule
   ]
 })
 export class HomeModule { }

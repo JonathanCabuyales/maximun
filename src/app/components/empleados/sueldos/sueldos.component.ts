@@ -7,7 +7,6 @@ import { UsuarioI } from 'src/app/models/usuario.interface';
 import { SueldosService } from 'src/app/services/sueldos.service';
 import { UsuarioserService } from 'src/app/services/usuarioser.service';
 import { DialogsueldoempleadoComponent } from '../dialogsueldoempleado/dialogsueldoempleado.component';
-import Swal from 'sweetalert2';
 import { CookieService } from 'ngx-cookie-service';
 import { DialogatrasosComponent } from '../dialogatrasos/dialogatrasos.component';
 
@@ -97,6 +96,8 @@ export class SueldosComponent implements OnInit {
   // seccion para registrar los atrasos
   atrasos(usuario){
 
+    console.log(usuario);
+    
     const dialogRef = this.dialog.open(DialogatrasosComponent, {
       width: '600px',
       data: usuario

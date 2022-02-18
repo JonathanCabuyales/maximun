@@ -21,4 +21,5 @@ export class PrefacturaService {
     this.resultado = this.http.post(`${this.baseUrl}/prefactura/prefactura_insert.php`, JSON.stringify(prefactura));
     return this.resultado;
   }
+
 }

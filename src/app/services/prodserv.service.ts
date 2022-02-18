@@ -48,4 +48,14 @@ export class ProdservService {
     return this.resultado;
   }
 
+  getitemcodigo(codigobarras: any, token: string){
+    this.resultado = this.http.get(`${this.baseUrl}/productosservicios/productos_servicios_get_codigo.php?codigobarras=${codigobarras}&token=${token}`);
+    return this.resultado;
+  }
+
+  updateProdSerFactura(prodSer: ProsernuevoI){
+    this.resultado = this.http.put(`${this.baseUrl}/productosservicios/productos_servicios_update_factura.php`, JSON.stringify(prodSer));
+    return this.resultado;
+  }
+
 }

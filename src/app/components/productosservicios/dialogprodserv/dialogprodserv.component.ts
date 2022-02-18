@@ -15,7 +15,7 @@ import { ProdservService } from 'src/app/services/prodserv.service';
 })
 export class DialogprodservComponent implements OnInit {
 
-  displayedColumns: string[] = ['categoria', 'nombre', 'descripcion', 'cantidad', 'precio', 'seleccion'];
+  displayedColumns: string[] = ['codigo', 'categoria', 'nombre',  'cantidad', 'precio', 'seleccion'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -29,12 +29,14 @@ export class DialogprodservComponent implements OnInit {
   token: string = '';
 
   constructor(public dialogRef: MatDialogRef<DialogprodservComponent>, @Inject(MAT_DIALOG_DATA)
+  public prodserup: any,
   private _cookie: CookieService,
     private _prodser: ProdservService,) { }
 
   ngOnInit() {
-    this.token = this._cookie.get('token');
 
+    this.token = this._cookie.get("token");
+    
     this._prodser.getAll(this.token).subscribe(res => {
 
       if (res.data.length) {

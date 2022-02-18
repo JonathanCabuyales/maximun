@@ -122,15 +122,15 @@
         <app-sueldospagados #rolpagos></app-sueldospagados>
     </mat-tab>
 
-    <mat-tab label="Atrasos">
+    <mat-tab label="Atrasos" *ngIf="rol == 'ADMIN' || rol == 'CONTABILIDAD'">
         <app-atrasos #atrasos></app-atrasos>
     </mat-tab>
 
-    <mat-tab label="Vacaciones">
+    <mat-tab label="Vacaciones" *ngIf="rol == 'ADMIN'">
         <app-vacaciones #vaciones></app-vacaciones>
     </mat-tab>
 
-    <mat-tab label="Permisos">
+    <mat-tab label="Permisos" *ngIf="rol == 'ADMIN'">
         <app-permisos #permisos></app-permisos>
     </mat-tab>
 

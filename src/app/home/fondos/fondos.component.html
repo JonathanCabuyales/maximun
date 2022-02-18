@@ -1,13 +1,10 @@
 <h2>FONDOS</h2>
-<p>Asignación y Justificación de fondos empleados</p>
 <!-- <router-outlet></router-outlet> -->
-
-
 <!-- #enddocregion slow-animation-duration -->
 <!-- [selectedIndex]="active" (selectedIndexChange)="onTabChange($event)" -->
 <mat-tab-group animationDuration="1000ms" [selectedIndex]="active" (selectedIndexChange)="onTabChange($event)">
     
-    <mat-tab label="Fondos Asignar" *ngIf="rol == 'ADMIN'">
+    <mat-tab label="Asignar Fondos" *ngIf="rol == 'ADMIN'">
         <app-dialogfondos #fondos></app-dialogfondos>
     </mat-tab>
 

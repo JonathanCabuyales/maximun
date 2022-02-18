@@ -10,19 +10,19 @@
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
   
+      <ng-container matColumnDef="codigo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+        <td mat-cell *matCellDef="let element" style="font-size: 12px;"> {{element.codigo_proser}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="categoria">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
-        <td mat-cell *matCellDef="let element" style="font-size: 12px;"> {{element.categoria_proser}} </td>
+        <td mat-cell *matCellDef="let element" style="font-size: 11px;"> {{element.categoria_proser | lowercase}} </td>
       </ng-container>
 
       <ng-container matColumnDef="nombre">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-        <td mat-cell *matCellDef="let element" style="font-size: 12px; text-align: center;"> <b>{{element.nombre_proser}}</b> </td>
-      </ng-container>
-
-      <ng-container matColumnDef="descripcion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
-        <td mat-cell *matCellDef="let element" style="font-size: 12px;"> {{element.descripcion_proser}} </td>
+        <td mat-cell *matCellDef="let element" style="font-size: 12px; text-align: left;"> <b>{{element.nombre_proser}}</b> </td>
       </ng-container>
   
       <ng-container matColumnDef="cantidad">

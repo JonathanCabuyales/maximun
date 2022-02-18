@@ -50,10 +50,23 @@ export class DialogatrasosjustificarComponent implements OnInit {
       this.atrasoUp.justificacion_atr = this.motivojusti;
       this.atrasoUp.id_usu = this.atraso.id_usuario;
       this.atrasoUp.token = this.token;
+      this.atrasoUp.correo = this.atraso.email;
       this.atrasoUp.fechajusti_atr = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+      this.atrasoUp.nombre = this.atraso.nombres;
+      this.atrasoUp.fecha_atr = this.atraso.fecha_atr;
+      this.atrasoUp.tiempo_atr = this.atraso.tiempo_atr;
+      this.atrasoUp.descripcion_atr = this.atraso.descripcion_atr;
 
+      
       this._atrasos.updateJustificacion(this.atrasoUp).subscribe(res=>{
         if(res.data){
+          this._atrasos.sendMailJustificarAtraso(this.atrasoUp).subscribe(res=>{
+            if(res.data){
+              this.toastSuccess("Hemos enviado el correo exitosamente");
+            }else{
+              this.toastError("No hemos podido enviar el correo intentalo nuevamente");
+            }
+          });
           this.dialogRef.close(true);
           this.toastSuccess("Hemos guardado la justificacion correctamente !!!");
         }else{

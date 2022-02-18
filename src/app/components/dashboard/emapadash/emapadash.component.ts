@@ -189,7 +189,7 @@ export class EmapadashComponent implements OnInit {
           }
         ],
         series: [{
-          data: this.totalgrupocortes,
+          data: this.totalNotificaciones,
           type: 'line',
           smooth: true
           // areaStyle: {}

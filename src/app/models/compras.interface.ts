@@ -1,8 +1,6 @@
 export interface ComprasI{
+  id_prove: string,
   tipocomprobante_com: string,
-  proveedor_com: string,
-  proveedorciruc_com: string,
-  direccionproveedor_com: string,
   emsion_com: string,
   registro_com: string,
   serie_com: string,

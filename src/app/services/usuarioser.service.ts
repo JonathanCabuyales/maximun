@@ -28,7 +28,7 @@ export class UsuarioserService {
     return this.resultado;
   }
 
-  createEmpleado(usuario: UsuarioI){
+  createEmpleado(usuario: any){
     this.resultado = this.http.post(`${this.baseUrl}/empleados/empleados_insert.php`, usuario);
     return this.resultado;
   }

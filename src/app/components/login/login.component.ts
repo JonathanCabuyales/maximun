@@ -44,8 +44,7 @@ export class LoginComponent implements OnInit {
       this._login.login(this.user, this.password).subscribe(res=>{
         
         if (res.status == 'success'){
-          console.log(res);
-          
+                    
           this.router.navigate(['home/dashboard']);          
           this.cookieService.set('token', res.access_token);
 

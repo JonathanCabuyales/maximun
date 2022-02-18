@@ -32,7 +32,7 @@ export class DialogasignarempleadoComponent implements OnInit {
 
   // variables para el inventario
   inventarioEmpleado: InventarioI;
-  actProser: ActualizarstockI;
+  actProser: any;
   token: any;
 
   constructor(public dialogRef: MatDialogRef<DialogasignarempleadoComponent>, @Inject(MAT_DIALOG_DATA)

@@ -33,6 +33,16 @@ export class ProyeccionService {
     return this.resultado;
   }
 
+  getProyeccionhojapedido(token: any, id_pro: any){
+    this.resultado = this.http.get(`${this.baseUrl}/proyeccion/proyeccion_hojapedido_getusuario.php?token=${token}&id_pro=${id_pro}`);
+    return this.resultado;
+  }
+
+  getProyeccionactividades(token: any, id_pro: any){
+    this.resultado = this.http.get(`${this.baseUrl}/proyeccion/proyeccion_actividades_getusuario.php?token=${token}&id_pro=${id_pro}`);
+    return this.resultado
+  }
+
   updateFechas(proyeccion: any){
     this.resultado = this.http.post(`${this.baseUrl}/proyeccion/proyeccion_fechas_update.php`, JSON.stringify(proyeccion));
     return this.resultado;
@@ -43,9 +53,20 @@ export class ProyeccionService {
       return this.resultado;
   }
 
+  updateHojapedido(proyeccion: any){
+    this.resultado = this.http.post(`${this.baseUrl}/proyeccion/proyeccion_hojapedido_update.php`, JSON.stringify(proyeccion));
+    return this.resultado;
+  }
+
   sendMailAprobado(atraso: any){
     // https://contable.vt-proyectos.com.ec/APIVTPROYECTOS
     this.resultado = this.http.post(`${this.baseUrl}/mail/mail_proyecto_aprobado.php`, JSON.stringify(atraso));
+    return this.resultado;
+  }
+
+  sendMailHojapedido(pedido: any){
+    // https://contable.vt-proyectos.com.ec/APIVTPROYECTOS
+    this.resultado = this.http.post(`${this.baseUrl}/mail/mail_proyecto_hojapedido.php`, JSON.stringify(pedido));
     return this.resultado;
   }
 

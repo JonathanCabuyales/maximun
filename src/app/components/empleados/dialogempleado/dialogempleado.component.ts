@@ -72,7 +72,6 @@ export class DialogempleadoComponent implements OnInit {
   guardar() {
 
     // Tipo de roles empleado, administrador, superadministrador
-
     if (this.empleado.usuario == '') {
       Swal.fire({
         icon: 'warning',
@@ -171,7 +170,6 @@ export class DialogempleadoComponent implements OnInit {
 
   capturarFile(event): any {
     const archivoCapturado = event.target.files[0]
-    console.log(archivoCapturado);
 
     let dia = new Date().getUTCDate();
     let mes = new Date().getMonth() + 1;
@@ -197,35 +195,16 @@ export class DialogempleadoComponent implements OnInit {
       downloadURL.subscribe(url => {
         if (url) {
           this.empleado.fotoperfil = url;
-          console.log(url);
+          this.imagenUsuario = url;
         }
       });
     });
-
-
-    // this.extraerBase64(archivoCapturado).then((imagen: any) => {
-    //   this.previsualizacion = imagen.base;
-    //   console.log(imagen);
-
-    // })
-    // this.archivos.push(archivoCapturado)
-
-    // 
-    // console.log(event.target.files);
-
-  }
-
-  // funcion para subir la imagen del usuario
-  imagenUsu(e) {
-    this.imagenUsuario = e.target.files[0]
-    console.log(e.target.files[0]);
 
   }
 
   cancelar() {
     this.dialogRef.close();
   }
-
 
   // cambiar de text a password
   contrasena() {

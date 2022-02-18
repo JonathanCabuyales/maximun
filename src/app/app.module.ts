@@ -143,6 +143,24 @@ import { DiagloproyeccionesComponent } from './components/proyeccion/diagloproye
 import { DialogmisproyeccionesComponent } from './components/proyeccion/dialogmisproyecciones/dialogmisproyecciones.component';
 import { DialogfechasComponent } from './components/proyeccion/dialogfechas/dialogfechas.component';
 import { DialogfechasregistradasComponent } from './components/proyeccion/dialogfechasregistradas/dialogfechasregistradas.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { DialogmiproyeccionComponent } from './components/proyeccion/dialogmiproyeccion/dialogmiproyeccion.component';
+import { DialogeditinventarioComponent } from './components/inventario/dialogeditinventario/dialogeditinventario.component';
+import { DialogproveedorComponent } from './components/inventario/dialogproveedor/dialogproveedor.component';
+import { DialogproveedoresComponent } from './components/inventario/dialogproveedores/dialogproveedores.component';
+import { DialogproveedorescomprasComponent } from './components/inventario/dialogproveedorescompras/dialogproveedorescompras.component';
+import { ComprasdashComponent } from './components/dashboard/comprasdash/comprasdash.component';
+import { DialognotaComponent } from './components/notas/dialognota/dialognota.component';
+import { NotasComponent } from './home/notas/notas.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { FirmasdashComponent } from './components/dashboard/firmasdash/firmasdash.component';
+import { FirmasComponent } from './home/firmas/firmas.component';
+import { DialogfirmasComponent } from './components/firmas/dialogfirmas/dialogfirmas.component';
+
+// importacion de modulo para el diagrama de gantt
+import { NgGanttEditorModule } from 'ng-gantt' 
+import { GanttChartAngularModule } from 'gantt-chart-angular';
+
 
 @NgModule({
   declarations: [
@@ -225,7 +243,18 @@ import { DialogfechasregistradasComponent } from './components/proyeccion/dialog
     DiagloproyeccionesComponent,
     DialogmisproyeccionesComponent,
     DialogfechasComponent,
-    DialogfechasregistradasComponent
+    DialogfechasregistradasComponent,
+    DialogmiproyeccionComponent,
+    DialogeditinventarioComponent,
+    DialogproveedorComponent,
+    DialogproveedoresComponent,
+    DialogproveedorescomprasComponent,
+    ComprasdashComponent,
+    DialognotaComponent,
+    NotasComponent,
+    FirmasdashComponent,
+    FirmasComponent,
+    DialogfirmasComponent
     ],
   imports: [
     BrowserModule,
@@ -258,7 +287,11 @@ import { DialogfechasregistradasComponent } from './components/proyeccion/dialog
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatMenuModule,
+    NgGanttEditorModule,
+    GanttChartAngularModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR'},
     CookieService,

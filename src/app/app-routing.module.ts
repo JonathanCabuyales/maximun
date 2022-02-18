@@ -25,7 +25,9 @@ import { ComprasComponent } from './home/compras/compras.component';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { EmapaComponent } from './home/emapa/emapa.component';
 import { EmpleadosComponent } from './home/empleados/empleados.component';
+import { FirmasComponent } from './home/firmas/firmas.component';
 import { FondosComponent } from './home/fondos/fondos.component';
+import { NotasComponent } from './home/notas/notas.component';
 import { PerfilusuarioComponent } from './home/perfilusuario/perfilusuario.component';
 import { ProductosserviciosComponent } from './home/productosservicios/productosservicios.component';
 import { ProyeccionComponent } from './home/proyeccion/proyeccion.component';
@@ -74,7 +76,9 @@ const routes: Routes = [
 
     ] },
     { path: 'perfilusuario', component: PerfilusuarioComponent},
-    { path: 'fondos', component: FondosComponent}
+    { path: 'fondos', component: FondosComponent},
+    { path: 'notas', component: NotasComponent },
+    { path: 'firmas', component: FirmasComponent }
     
   ]
 }

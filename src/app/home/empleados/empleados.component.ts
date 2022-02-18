@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { AtrasosComponent } from 'src/app/components/empleados/atrasos/atrasos.component';
 import { DialogempleadosComponent } from 'src/app/components/empleados/dialogempleados/dialogempleados.component';
 import { PermisosComponent } from 'src/app/components/empleados/permisos/permisos.component';
@@ -7,6 +8,7 @@ import { SueldospagadosComponent } from 'src/app/components/empleados/sueldospag
 import { VacacionesComponent } from 'src/app/components/empleados/vacaciones/vacaciones.component';
 import { UsuarioI } from 'src/app/models/usuario.interface';
 import { BdemapaService } from 'src/app/services/bdemapa.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-empleados',
@@ -22,18 +24,22 @@ export class EmpleadosComponent implements OnInit {
   @ViewChild('vaciones', {static: false}) vaciones: VacacionesComponent;
   @ViewChild('permisos', {static: false}) permisos: PermisosComponent;
 
-  
-
   active = 0;
+  token: string = '';
+  usuario: string;
+  rol: string;
+  foto: string = '';
 
   showPassword: boolean = false;
 
   // variables para el empleado
   empleado: UsuarioI;
 
-  constructor() { }
+  constructor(private _cookie: CookieService,
+    private _login: LoginService) { }
 
   ngOnInit(): void {
+
     this.empleado = {
       id_usuario: 0,
       nombres: '',
@@ -50,6 +56,15 @@ export class EmpleadosComponent implements OnInit {
       tipocontrato: '',
       create_at: new Date()
     }
+
+    this.token = this._cookie.get("token");
+
+    this._login.getuserdata(this.token).subscribe(res=>{
+      this.usuario = res.data.usuario;
+      this.rol = res.data.rol;
+      this.foto = res.data.foto;      
+    });
+
   }
 
   onTabChange(e) {

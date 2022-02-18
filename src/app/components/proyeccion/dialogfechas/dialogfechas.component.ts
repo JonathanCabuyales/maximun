@@ -93,17 +93,15 @@ export class DialogfechasComponent implements OnInit {
       this.fechaUpdate.fechas_pro = JSON.stringify(this.fechas);
       this.fechaUpdate.id_pro = this.fecha.id_pro;
       this.fechaUpdate.token = this.token;
-
-      console.log(this.fechaUpdate);
       
-      // this._proyeccion.updateFechas(this.fechaUpdate).subscribe(res=>{
-      //   if(res.data){
-      //     this.toastSuccess("Hemos registrado los datos con exito!!!");
-      //     this.dialogRef.close();
-      //   } else {
-      //     this.toastError("No podemos registrar las fechas intentalo nuevamete.");
-      //   }
-      // });
+      this._proyeccion.updateFechas(this.fechaUpdate).subscribe(res=>{
+        if(res.data){
+          this.toastSuccess("Hemos registrado los datos con exito!!!");
+          this.dialogRef.close();
+        } else {
+          this.toastError("No podemos registrar las fechas intentalo nuevamete.");
+        }
+      });
 
       
     }

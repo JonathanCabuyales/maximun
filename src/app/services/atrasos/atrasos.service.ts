@@ -37,11 +37,20 @@ export class AtrasosService {
     return this.resultado;
   }
 
+
+  deleteAtraso(atraso: any) {
+    this.resultado = this.http.post(`${this.baseUrl}/atrasos/atrasos_delete.php`, JSON.stringify(atraso));
+    return this.resultado;
+  }
   // cambia la direccion del path para el correo cuando ya este en el servidor ${this.baseUrl}
   sendMail(atraso: any){
     this.resultado = this.http.post(`https://contable.vt-proyectos.com.ec/APIVTPROYECTOS/mail/mailatrasos.php`, JSON.stringify(atraso));
     return this.resultado;
-    
+  }
+
+  sendMailJustificarAtraso(atraso: any){
+    this.resultado = this.http.post(`https://contable.vt-proyectos.com.ec/APIVTPROYECTOS/mail/mail_atraso_justificado.php`, JSON.stringify(atraso));
+    return this.resultado;
   }
 
 }
