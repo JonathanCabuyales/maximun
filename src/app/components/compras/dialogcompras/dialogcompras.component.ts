@@ -13,6 +13,7 @@ import { DialogitemsnotaventaComponent } from '../dialogitemsnotaventa/dialogite
 import { CookieService } from 'ngx-cookie-service';
 import { DialogproveedorescomprasComponent } from '../../inventario/dialogproveedorescompras/dialogproveedorescompras.component';
 import { ProveedorI } from 'src/app/models/proveedor/proveedor.interface';
+import { EmpresaService } from 'src/app/services/empresa.service';
 
 @Component({
   selector: 'app-dialogcompras',
@@ -21,7 +22,7 @@ import { ProveedorI } from 'src/app/models/proveedor/proveedor.interface';
 })
 export class DialogcomprasComponent implements OnInit {
 
-  displayedColumns: string[] = ['descripcion', 'cantidad', 'precio', 'total', 'eliminar'];
+  displayedColumns: string[] = ['descripcion', 'cantidad', 'precio', 'descuento', 'total', 'eliminar'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,23 +44,28 @@ export class DialogcomprasComponent implements OnInit {
   showbtnNota: boolean = false;
   showComprobante: boolean = true;
   showBorrarItems: boolean = false;
-  
+
   // variable para el proveedor
   proveedor: ProveedorI;
 
   // variable para el token
   token: string = '';
 
+  // lista para cargar empresas
+  listaempresas: any[];
+
   constructor(public dialog: MatDialog,
     private _proser: ProdservService,
     private _compras: ComprasService,
     private toastr: ToastrService,
-    private _cookie: CookieService) { }
+    private _cookie: CookieService,
+    private _empresa: EmpresaService) { }
 
   ngOnInit(): void {
 
     this.token = this._cookie.get('token');
 
+    this.loadBusiness();
     this.nuevoProductoServicio = {
       id_proser: 0,
       codigo_proser: '',
@@ -104,12 +110,14 @@ export class DialogcomprasComponent implements OnInit {
     this.showComprobante = false;
     this.showBorrarItems = false;
     this.listaItems = [];
+    this.listaempresas = [];
+
 
   }
 
   grabarCompra() {
-    
-    if (this.compra.tipocomprobante_com == '') {
+
+    if (this.compra.tipocomprobante_com == '0') {
       Swal.fire({
         icon: 'warning',
         confirmButtonColor: '#1d1d24',
@@ -123,7 +131,7 @@ export class DialogcomprasComponent implements OnInit {
         confirmButtonColor: '#1d1d24',
         text: 'Debes cargar la información del proveedor para continuar'
       });
-    } else if(this.compra.emsion_com == ''){
+    } else if (this.compra.emsion_com == '') {
 
       Swal.fire({
         icon: 'warning',
@@ -148,7 +156,7 @@ export class DialogcomprasComponent implements OnInit {
         this.compra.comceptos_com = objeto;
         this.compra.token = this.token;
         this.compra.id_prove = this.proveedor.id_prove;
-        
+
         console.log(this.compra);
 
         this._compras.createCompra(this.compra).subscribe(res => {
@@ -168,7 +176,7 @@ export class DialogcomprasComponent implements OnInit {
 
         this.compra.comceptos_com = objeto;
         this.compra.token = this.token;
-        this.compra.id_prove = this.proveedor.id_prove;        
+        this.compra.id_prove = this.proveedor.id_prove;
 
         this._compras.createCompra(this.compra).subscribe(res => {
 
@@ -176,23 +184,27 @@ export class DialogcomprasComponent implements OnInit {
 
             for (let i = 0; i < this.listaItems.length; i++) {
 
-              this.nuevoProductoServicio.descripcion_proser = this.listaItems[i].descripcion;
-              this.nuevoProductoServicio.cantidad_proser = this.listaItems[i].cantidad;
-              this.nuevoProductoServicio.cantidadfinal_proser = this.listaItems[i].cantidad;
-              this.nuevoProductoServicio.precio_proser = this.listaItems[i].precio;
-              this.nuevoProductoServicio.categoria_proser = this.listaItems[i].categoria;
-              this.nuevoProductoServicio.nombre_proser = this.listaItems[i].descripcion;
-              this.nuevoProductoServicio.codigo_proser = this.listaItems[i].codigobarras;
-              this.nuevoProductoServicio.preciosugerido_proser = this.listaItems[i].precio;
-              this.nuevoProductoServicio.lote_proser = this.listaItems[i].lote;
-              this.nuevoProductoServicio.IVA_proser = this.listaItems[i].iva;
-              this.nuevoProductoServicio.token = this.token;
-              this.nuevoProductoServicio.id_prove = this.proveedor.id_prove;
+              if (this.listaItems[i].categoria == 'SERVICIO') {
 
-              // console.log(this.nuevoProductoServicio);
+              } else {
+                this.nuevoProductoServicio.descripcion_proser = this.listaItems[i].descripcion;
+                this.nuevoProductoServicio.cantidad_proser = this.listaItems[i].cantidad;
+                this.nuevoProductoServicio.cantidadfinal_proser = this.listaItems[i].cantidad;
+                this.nuevoProductoServicio.precio_proser = this.listaItems[i].precio;
+                this.nuevoProductoServicio.categoria_proser = this.listaItems[i].categoria;
+                this.nuevoProductoServicio.nombre_proser = this.listaItems[i].descripcion;
+                this.nuevoProductoServicio.codigo_proser = this.listaItems[i].codigobarras;
+                this.nuevoProductoServicio.preciosugerido_proser = this.listaItems[i].precio;
+                this.nuevoProductoServicio.lote_proser = this.listaItems[i].lote;
+                this.nuevoProductoServicio.IVA_proser = this.listaItems[i].iva;
+                this.nuevoProductoServicio.token = this.token;
+                this.nuevoProductoServicio.id_prove = this.proveedor.id_prove;
 
-              this._proser.createProdSer(this.nuevoProductoServicio).subscribe(res => {
-              });
+                // console.log(this.nuevoProductoServicio);
+
+                this._proser.createProdSer(this.nuevoProductoServicio).subscribe(res => {
+                });
+              }
             }
             this.borrarCompra();
             this.borrarItems();
@@ -237,7 +249,7 @@ export class DialogcomprasComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
 
       console.log(res);
-      
+
       if (res != undefined) {
 
         if (!this.listaItems.length) {
@@ -337,16 +349,16 @@ export class DialogcomprasComponent implements OnInit {
     }
   }
 
-  cargarProveedor(){
+  cargarProveedor() {
 
     const dialogRef = this.dialog.open(DialogproveedorescomprasComponent, {
       width: '70%'
     }
     );
 
-    dialogRef.afterClosed().subscribe(res=>{
+    dialogRef.afterClosed().subscribe(res => {
 
-      if(res != undefined){
+      if (res != undefined) {
         this.proveedor = res;
       }
 
@@ -354,8 +366,18 @@ export class DialogcomprasComponent implements OnInit {
   }
 
   // seccion para generar comprobantes de retencion
-  generarRetencion(){
-    
+  generarRetencion() {
+
+  }
+
+  // seccion para cargar las empresas
+  loadBusiness(){
+    this._empresa.getAll(this.token).subscribe(res=>{
+      this.listaempresas = res.data;
+
+      console.log(this.listaempresas);
+      
+    });
   }
 
   borrarItems() {

@@ -10,6 +10,7 @@ import { ProyeccionService } from 'src/app/services/proyeccion/proyeccion.servic
 import { DialogmisproyeccionesComponent } from '../dialogmisproyecciones/dialogmisproyecciones.component';
 
 import { GanttEditorComponent, GanttEditorOptions } from 'ng-gantt';
+import { GanttI } from 'src/app/models/proyeccion/diagramagantt.interface';
 
 
 @Component({
@@ -116,6 +117,10 @@ export class DialogmiproyeccionComponent implements OnInit {
   // variables para guardar el diagrama
   listaganttgeneral: any[];
   listaganttactividades: any[];
+  subactividad: GanttI;
+
+  // variables para mostrar campos
+  showSubactividades: boolean = false;
 
   constructor(
     private _cookie: CookieService,
@@ -125,7 +130,7 @@ export class DialogmiproyeccionComponent implements OnInit {
   ) {
 
     this.editorOptions = new GanttEditorOptions()
-     this.data = [{
+    this.data = [{
       'pID': 1,
       'pName': 'Define Chart API',
       'pStart': '',
@@ -141,9 +146,9 @@ export class DialogmiproyeccionComponent implements OnInit {
       'pDepend': '',
       'pCaption': '',
       'pNotes': 'Some Notes text'
-    }]; 
+    }];
 
-   }
+  }
 
   ngOnInit(): void {
     this.token = this._cookie.get('token');
@@ -152,6 +157,47 @@ export class DialogmiproyeccionComponent implements OnInit {
     this.listaactividades = [];
     this.listaganttgeneral = [];
     this.listaganttactividades = [];
+    this.showSubactividades = false;
+
+    this.subactividad = {
+      pID: '',
+      pName: '',
+      pStart: '',
+      pEnd: '',
+      pClass: '',
+      pLink: '',
+      pMile: '',
+      pRes: '',
+      pComp: '',
+      pGroup: '',
+      pParent: '',
+      pOpen: '',
+      pDepend: '',
+      pCaption: '',
+      pNotes: ''
+    }
+
+    // 'pID': '11',
+    //   'pName': 'Actividad 1',
+    //   'pStart': '2022-02-18', //fecha de inicio
+    //   'pEnd': '2022-02-20', // fecha de fin
+    //   'pClass': 'ggroupblack',  // color y forma de la barra  
+    //   // gtaskblue = azul, gtaskyellow = amarillo, gtaskred = rojo
+    //   // ggroupblack = barra negra del total
+    //   'pLink': '',
+    //   'pMile': 0,
+    //   'pRes': 'Shlomy',
+    //   'pComp': 100, // porcentaje de trabajo realizado
+    //   'pGroup': 1, // para que se grafique la barra
+    //   'pParent': 1, // para unir a la actividad principal por ejemplo de la actidad 1 este se uniria a 1 
+    //   'pOpen': 1,
+    //   'pDepend': '', // para unir nodos
+    //   'pCaption': '',
+    //   'pNotes': '' // para mostrar alguna nota de ser el caso
+
+    this.listaganttactividades = [{
+
+    }]
 
     this.fechas = {
       fechaentrega: '',
@@ -175,47 +221,84 @@ export class DialogmiproyeccionComponent implements OnInit {
       this.fechaactual = anio + '-' + mes + '-' + dia;
     }
 
+    this.listaganttgeneral = []
     this.listaganttactividades = [{
       pID: '',
-    pName: '',
-    pStart: '',
-    pEnd: '',
-    pClass: '',
-    pLink: '',
-    pMile: '',
-    pRes: '',
-    pComp: '',
-    pGroup: '',
-    pParent: '',
-    pOpen: '',
-    pDepend: '',
-    pCaption: '',
-    pNotes: ''
-    },
-    {
+      pName: '',
+      pStart: '',
+      pEnd: '',
+      pClass: '',
+      pLink: '',
+      pMile: '',
+      pRes: '',
+      pComp: '',
+      pGroup: '',
+      pParent: '',
+      pOpen: '',
+      pDepend: '',
+      pCaption: '',
+      pNotes: ''
+    }];
+
+    // este objeto lo usare para guardar cada actividad principal ya que la barra debe ser distinta 
+    // es decir sera una linea de color negro que contenga todas las sub actividadades
+    this.subactividad = {
       pID: '',
-    pName: '',
-    pStart: '',
-    pEnd: '',
-    pClass: '',
-    pLink: '',
-    pMile: '',
-    pRes: '',
-    pComp: '',
-    pGroup: '',
-    pParent: '',
-    pOpen: '',
-    pDepend: '',
-    pCaption: '',
-    pNotes: ''
-    }]
+      pName: '',
+      pStart: '',
+      pEnd: '',
+      pClass: 'ggroupblack',
+      pLink: '',
+      pMile: '',
+      pRes: '',
+      pComp: '',
+      pGroup: '',
+      pParent: '',
+      pOpen: '',
+      pDepend: '',
+      pCaption: '',
+      pNotes: ''
+    }
+    // this.listaganttactividades = [{
+    //   pID: '',
+    // pName: '',
+    // pStart: '',
+    // pEnd: '',
+    // pClass: '',
+    // pLink: '',
+    // pMile: '',
+    // pRes: '',
+    // pComp: '',
+    // pGroup: '',
+    // pParent: '',
+    // pOpen: '',
+    // pDepend: '',
+    // pCaption: '',
+    // pNotes: ''
+    // },
+    // {
+    //   pID: '',
+    // pName: '',
+    // pStart: '',
+    // pEnd: '',
+    // pClass: '',
+    // pLink: '',
+    // pMile: '',
+    // pRes: '',
+    // pComp: '',
+    // pGroup: '',
+    // pParent: '',
+    // pOpen: '',
+    // pDepend: '',
+    // pCaption: '',
+    // pNotes: ''
+    // }]
 
     this.listaganttgeneral.push(this.listaganttactividades);
-    
+
     console.log(this.listaganttactividades);
     console.log(this.listaganttgeneral);
-    
-    
+
 
     // this.data = this.initialData();
     // this.editorOptions = {
@@ -323,7 +406,7 @@ export class DialogmiproyeccionComponent implements OnInit {
 
     // -----------------------------------------------
 
-  
+
   }
 
   addPedido() {
@@ -435,6 +518,25 @@ export class DialogmiproyeccionComponent implements OnInit {
             this.listaactividades = JSON.parse(res.data[0].actividades_act);
           } else {
             this.listaactividades = [];
+            this.listaganttgeneral = [
+              {
+                'pID': 1,
+                'pName': 'Proyecto',
+                'pStart': '',
+                'pEnd': '',
+                'pClass': 'ggroupblack',
+                'pLink': '',
+                'pMile': 0,
+                'pRes': '',
+                'pComp': 0,
+                'pGroup': 1,
+                'pParent': 0,
+                'pOpen': 1,
+                'pDepend': '',
+                'pCaption': '',
+                'pNotes': ''
+              }
+            ]
           }
 
         });
@@ -495,6 +597,57 @@ export class DialogmiproyeccionComponent implements OnInit {
     this.datapedido.paginator = this.paginator;
   }
 
+
+  crearSubactividades() {
+    // esta funcion la usare para mostrar el boton de subactividades
+    // se usa un booleano para mostrar o no el cuadro.
+
+    if (this.subactividad.pName == '' || this.subactividad.pName == null) {
+      this.toastError("No has registrado el nombre de la actividad principal");
+    } else if (this.subactividad.pRes == '' || this.subactividad.pRes == null) {
+      this.toastError("No has ingresado al responsable");
+    } else {
+      this.listaganttactividades[0] = this.subactividad;
+      this.showSubactividades = true;
+    }
+
+  }
+
+  // funcion para añadir una subactividad
+  addSubactividad() {
+
+
+    // para añadir la sub actividad primero verifico la distancia dela lista general
+    // luego añado la lista de actividades a la lista general en un array de subarrays
+
+    // se ocupa un objeto de tipo subactividad el que sera guardado en cada posicion del array
+
+    console.log(this.listaganttactividades.length);
+
+    this.listaganttactividades[this.listaganttactividades.length].push({
+      pID: '',
+      pName: '',
+      pStart: '',
+      pEnd: '',
+      pClass: '',
+      pLink: '',
+      pMile: '',
+      pRes: '',
+      pComp: '',
+      pGroup: '',
+      pParent: '',
+      pOpen: '',
+      pDepend: '',
+      pCaption: '',
+      pNotes: ''
+    });
+
+    console.log(this.listaganttactividades);
+
+  }
+
+
+
   // funciones para agregar contenido en las variables de gantt 
   // ejemplo
 
@@ -550,8 +703,8 @@ export class DialogmiproyeccionComponent implements OnInit {
       'pStart': '2022-02-18', //fecha de inicio
       'pEnd': '2022-02-20', // fecha de fin
       'pClass': 'ggroupblack',  // color y forma de la barra  
-        // gtaskblue = azul, gtaskyellow = amarillo, gtaskred = rojo
-        // ggroupblack = barra negra del total
+      // gtaskblue = azul, gtaskyellow = amarillo, gtaskred = rojo
+      // ggroupblack = barra negra del total
       'pLink': '',
       'pMile': 0,
       'pRes': 'Shlomy',
@@ -569,7 +722,7 @@ export class DialogmiproyeccionComponent implements OnInit {
       'pStart': '2022-02-18', //fecha de inicio
       'pEnd': '2022-02-21', // fecha de fin
       'pClass': 'gtaskred',  // color y forma de la barra  
-        // gtaskblue = azul, gtaskyellow = amarillo, gtaskred = rojo
+      // gtaskblue = azul, gtaskyellow = amarillo, gtaskred = rojo
       'pLink': '',
       'pMile': 0,
       'pRes': 'Shlomy',
@@ -616,7 +769,7 @@ export class DialogmiproyeccionComponent implements OnInit {
       'pNotes': ''
     },
     {
-      'pID': 13,
+      'pID': '13',
       'pName': 'Actividad 3',
       'pStart': '',
       'pEnd': '',
@@ -666,284 +819,284 @@ export class DialogmiproyeccionComponent implements OnInit {
       'pCaption': '',
       'pNotes': ''
     },
-    // {
-    //   'pID': 122,
-    //   'pName': 'Task Variables',
-    //   'pStart': '2022-03-06',
-    //   'pEnd': '2022-03-11',
-    //   'pPlanStart': '2022-03-03',
-    //   'pPlanEnd': '2022-03-09',
-    //   'pClass': 'gtaskred',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 12,
-    //   'pOpen': 1,
-    //   'pDepend': 121,
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 123,
-    //   'pName': 'Task by Minute/Hour',
-    //   'pStart': '',
-    //   'pEnd': '',
-    //   'pPlanStart': '2022-03-01',
-    //   'pPlanEnd': '2022-03-15 12:00',
-    //   'pClass': 'gtaskyellow',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Ilan',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 12,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': '',
-    //   'pCost': 1000
-    // },
-    // {
-    //   'pID': 124,
-    //   'pName': 'Task Functions',
-    //   'pStart': '2022-03-09',
-    //   'pEnd': '2022-03-29',
-    //   'pClass': 'gtaskred',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Anyone',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 12,
-    //   'pOpen': 1,
-    //   'pDepend': '123SS',
-    //   'pCaption': 'This is a caption',
-    //   'pNotes': null
-    // },
-    // {
-    //   'pID': 2,
-    //   'pName': 'Create HTML Shell',
-    //   'pStart': '2022-03-24',
-    //   'pEnd': '2022-03-24',
-    //   'pClass': 'gtaskyellow',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 20,
-    //   'pGroup': 0,
-    //   'pParent': 0,
-    //   'pOpen': 1,
-    //   'pDepend': 122,
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 3,
-    //   'pName': 'Code Javascript',
-    //   'pStart': '',
-    //   'pEnd': '',
-    //   'pClass': 'ggroupblack',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 0,
-    //   'pGroup': 1,
-    //   'pParent': 0,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 31,
-    //   'pName': 'Define Variables',
-    //   'pStart': '2022-02-25',
-    //   'pEnd': '2022-03-17',
-    //   'pClass': 'gtaskpurple',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 30,
-    //   'pGroup': 0,
-    //   'pParent': 3,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 32,
-    //   'pName': 'Calculate Chart Size',
-    //   'pStart': '2022-03-15',
-    //   'pEnd': '2022-03-24',
-    //   'pClass': 'gtaskgreen',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Shlomy',
-    //   'pComp': 40,
-    //   'pGroup': 0,
-    //   'pParent': 3,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 33,
-    //   'pName': 'Draw Task Items',
-    //   'pStart': '',
-    //   'pEnd': '',
-    //   'pClass': 'ggroupblack',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Someone',
-    //   'pComp': 40,
-    //   'pGroup': 2,
-    //   'pParent': 3,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 332,
-    //   'pName': 'Task Label Table',
-    //   'pStart': '2022-03-06',
-    //   'pEnd': '2022-03-09',
-    //   'pClass': 'gtaskblue',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 33,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 333,
-    //   'pName': 'Task Scrolling Grid',
-    //   'pStart': '2022-03-11',
-    //   'pEnd': '2022-03-20',
-    //   'pClass': 'gtaskblue',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 0,
-    //   'pGroup': 0,
-    //   'pParent': 33,
-    //   'pOpen': 1,
-    //   'pDepend': '332',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 34,
-    //   'pName': 'Draw Task Bars',
-    //   'pStart': '',
-    //   'pEnd': '',
-    //   'pClass': 'ggroupblack',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Anybody',
-    //   'pComp': 60,
-    //   'pGroup': 1,
-    //   'pParent': 3,
-    //   'pOpen': 0,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 341,
-    //   'pName': 'Loop each Task',
-    //   'pStart': '2022-03-26',
-    //   'pEnd': '2022-04-11',
-    //   'pClass': 'gtaskred',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 34,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 342,
-    //   'pName': 'Calculate Start/Stop',
-    //   'pStart': '2022-04-12',
-    //   'pEnd': '2022-05-18',
-    //   'pClass': 'gtaskpink',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 34,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 343,
-    //   'pName': 'Draw Task Div',
-    //   'pStart': '2022-05-13',
-    //   'pEnd': '2022-05-17',
-    //   'pClass': 'gtaskred',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 34,
-    //   'pOpen': 1,
-    //   'pDepend': '',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 344,
-    //   'pName': 'Draw Completion Div',
-    //   'pStart': '2022-05-17',
-    //   'pEnd': '2022-06-04',
-    //   'pClass': 'gtaskred',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 60,
-    //   'pGroup': 0,
-    //   'pParent': 34,
-    //   'pOpen': 1,
-    //   'pDepend': '342,343',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // },
-    // {
-    //   'pID': 35,
-    //   'pName': 'Make Updates',
-    //   'pStart': '2022-07-17',
-    //   'pEnd': '2022-09-04',
-    //   'pClass': 'gtaskpurple',
-    //   'pLink': '',
-    //   'pMile': 0,
-    //   'pRes': 'Brian',
-    //   'pComp': 30,
-    //   'pGroup': 0,
-    //   'pParent': 3,
-    //   'pOpen': 1,
-    //   'pDepend': '333',
-    //   'pCaption': '',
-    //   'pNotes': ''
-    // }
-  ];
+      // {
+      //   'pID': 122,
+      //   'pName': 'Task Variables',
+      //   'pStart': '2022-03-06',
+      //   'pEnd': '2022-03-11',
+      //   'pPlanStart': '2022-03-03',
+      //   'pPlanEnd': '2022-03-09',
+      //   'pClass': 'gtaskred',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 12,
+      //   'pOpen': 1,
+      //   'pDepend': 121,
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 123,
+      //   'pName': 'Task by Minute/Hour',
+      //   'pStart': '',
+      //   'pEnd': '',
+      //   'pPlanStart': '2022-03-01',
+      //   'pPlanEnd': '2022-03-15 12:00',
+      //   'pClass': 'gtaskyellow',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Ilan',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 12,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': '',
+      //   'pCost': 1000
+      // },
+      // {
+      //   'pID': 124,
+      //   'pName': 'Task Functions',
+      //   'pStart': '2022-03-09',
+      //   'pEnd': '2022-03-29',
+      //   'pClass': 'gtaskred',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Anyone',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 12,
+      //   'pOpen': 1,
+      //   'pDepend': '123SS',
+      //   'pCaption': 'This is a caption',
+      //   'pNotes': null
+      // },
+      // {
+      //   'pID': 2,
+      //   'pName': 'Create HTML Shell',
+      //   'pStart': '2022-03-24',
+      //   'pEnd': '2022-03-24',
+      //   'pClass': 'gtaskyellow',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 20,
+      //   'pGroup': 0,
+      //   'pParent': 0,
+      //   'pOpen': 1,
+      //   'pDepend': 122,
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 3,
+      //   'pName': 'Code Javascript',
+      //   'pStart': '',
+      //   'pEnd': '',
+      //   'pClass': 'ggroupblack',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 0,
+      //   'pGroup': 1,
+      //   'pParent': 0,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 31,
+      //   'pName': 'Define Variables',
+      //   'pStart': '2022-02-25',
+      //   'pEnd': '2022-03-17',
+      //   'pClass': 'gtaskpurple',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 30,
+      //   'pGroup': 0,
+      //   'pParent': 3,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 32,
+      //   'pName': 'Calculate Chart Size',
+      //   'pStart': '2022-03-15',
+      //   'pEnd': '2022-03-24',
+      //   'pClass': 'gtaskgreen',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Shlomy',
+      //   'pComp': 40,
+      //   'pGroup': 0,
+      //   'pParent': 3,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 33,
+      //   'pName': 'Draw Task Items',
+      //   'pStart': '',
+      //   'pEnd': '',
+      //   'pClass': 'ggroupblack',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Someone',
+      //   'pComp': 40,
+      //   'pGroup': 2,
+      //   'pParent': 3,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 332,
+      //   'pName': 'Task Label Table',
+      //   'pStart': '2022-03-06',
+      //   'pEnd': '2022-03-09',
+      //   'pClass': 'gtaskblue',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 33,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 333,
+      //   'pName': 'Task Scrolling Grid',
+      //   'pStart': '2022-03-11',
+      //   'pEnd': '2022-03-20',
+      //   'pClass': 'gtaskblue',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 0,
+      //   'pGroup': 0,
+      //   'pParent': 33,
+      //   'pOpen': 1,
+      //   'pDepend': '332',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 34,
+      //   'pName': 'Draw Task Bars',
+      //   'pStart': '',
+      //   'pEnd': '',
+      //   'pClass': 'ggroupblack',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Anybody',
+      //   'pComp': 60,
+      //   'pGroup': 1,
+      //   'pParent': 3,
+      //   'pOpen': 0,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 341,
+      //   'pName': 'Loop each Task',
+      //   'pStart': '2022-03-26',
+      //   'pEnd': '2022-04-11',
+      //   'pClass': 'gtaskred',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 34,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 342,
+      //   'pName': 'Calculate Start/Stop',
+      //   'pStart': '2022-04-12',
+      //   'pEnd': '2022-05-18',
+      //   'pClass': 'gtaskpink',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 34,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 343,
+      //   'pName': 'Draw Task Div',
+      //   'pStart': '2022-05-13',
+      //   'pEnd': '2022-05-17',
+      //   'pClass': 'gtaskred',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 34,
+      //   'pOpen': 1,
+      //   'pDepend': '',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 344,
+      //   'pName': 'Draw Completion Div',
+      //   'pStart': '2022-05-17',
+      //   'pEnd': '2022-06-04',
+      //   'pClass': 'gtaskred',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 60,
+      //   'pGroup': 0,
+      //   'pParent': 34,
+      //   'pOpen': 1,
+      //   'pDepend': '342,343',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // },
+      // {
+      //   'pID': 35,
+      //   'pName': 'Make Updates',
+      //   'pStart': '2022-07-17',
+      //   'pEnd': '2022-09-04',
+      //   'pClass': 'gtaskpurple',
+      //   'pLink': '',
+      //   'pMile': 0,
+      //   'pRes': 'Brian',
+      //   'pComp': 30,
+      //   'pGroup': 0,
+      //   'pParent': 3,
+      //   'pOpen': 1,
+      //   'pDepend': '333',
+      //   'pCaption': '',
+      //   'pNotes': ''
+      // }
+    ];
   }
 
   // -------------------------------------------------------

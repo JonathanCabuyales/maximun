@@ -15,5 +15,6 @@ export interface ItemsI {
     nombre_proser?: string,
     fechaelaboracion?: string,
     fechavencimiento?: string,
-    iva?: string
+    iva?: string,
+    descuento?: string
 }

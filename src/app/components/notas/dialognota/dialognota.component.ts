@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { NotasService } from 'src/app/services/notas/notas.service';
+import { DialogeditnotaComponent } from '../dialogeditnota/dialogeditnota.component';
 
 @Component({
   selector: 'app-dialognota',
@@ -28,7 +30,8 @@ export class DialognotaComponent implements OnInit {
 
   constructor(private toastr: ToastrService,
     private _cookie: CookieService,
-    private _nota: NotasService) { }
+    private _nota: NotasService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.token = this._cookie.get("token");
@@ -39,6 +42,9 @@ export class DialognotaComponent implements OnInit {
 
   loadNotas() {
     this._nota.getAll(this.token).subscribe(res => {
+
+      console.log(res);
+      
       if (res.data.length) {
         this.listanotas = res.data;
         this.dataSource = new MatTableDataSource(this.listanotas);
@@ -75,15 +81,31 @@ export class DialognotaComponent implements OnInit {
 
   }
 
-  editarNota(nota) {
-    if (this.nota.descripcion_nota == '' || this.nota.descripcion_nota == null) {
-      this.nota.descripcion_nota = nota.descripcion_nota;
-    } else if (this.nota.descripcion_nota != '') {
-      this.nota.descripcion_nota = nota.descripcion_nota;
-    }
+  editNota(nota) {
+    
+    const dialogRef = this.dialog.open(DialogeditnotaComponent, {
+      width: '50%',
+      data: nota
+    });
 
-    console.log(this.nota);
+    dialogRef.afterClosed().subscribe(res => {
 
+      console.log(res);
+      
+      if (res != undefined) {
+        res.token = this.token;
+
+        this._nota.editnota(res).subscribe(res=>{
+          if(res.data){
+            this.loadNotas();
+            this.toastSuccess("Nota editada");
+          }else{
+            this.toastError("Tenemos problemas para editar la nota intenalo nuevamente");
+          }
+        });
+      }
+
+    });
 
   }
 

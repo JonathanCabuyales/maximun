@@ -26,4 +26,9 @@ export class NotasService {
     this.resultado = this.http.post(`${this.baseUrl}/notas/nota_delete.php`, nota);
     return this.resultado;
   }
+
+  editnota(nota: any){
+    this.resultado = this.http.post(`${this.baseUrl}/notas/nota_update.php`, nota);
+    return this.resultado;
+  }
 }

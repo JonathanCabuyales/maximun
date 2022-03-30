@@ -160,6 +160,7 @@ import { DialogfirmasComponent } from './components/firmas/dialogfirmas/dialogfi
 // importacion de modulo para el diagrama de gantt
 import { NgGanttEditorModule } from 'ng-gantt' 
 import { GanttChartAngularModule } from 'gantt-chart-angular';
+import { DialogeditnotaComponent } from './components/notas/dialogeditnota/dialogeditnota.component';
 
 
 @NgModule({
@@ -254,7 +255,8 @@ import { GanttChartAngularModule } from 'gantt-chart-angular';
     NotasComponent,
     FirmasdashComponent,
     FirmasComponent,
-    DialogfirmasComponent
+    DialogfirmasComponent,
+    DialogeditnotaComponent
     ],
   imports: [
     BrowserModule,

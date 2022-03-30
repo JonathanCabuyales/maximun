@@ -20,6 +20,7 @@ export interface equipoMinimo {
 export class DialogequipominimoComponent implements OnInit {
 
   equipominimo: equipoMinimo;
+  checked: boolean = true;
 
   constructor(public dialogRef: MatDialogRef<DialoginsumosComponent>, @Inject(MAT_DIALOG_DATA)
   public tiempoProyecto: number) { }
@@ -42,9 +43,22 @@ export class DialogequipominimoComponent implements OnInit {
         text: 'Debe ingresar todos los datos para continuar'
       });
     }else{
-      this.equipominimo.totalMes = (parseFloat(this.equipominimo.cantidad) * parseFloat(this.equipominimo.valor)).toFixed(2);
-      this.equipominimo.total = (parseFloat(this.equipominimo.cantidad) * parseFloat(this.equipominimo.valor) * this.tiempoProyecto).toFixed(2);
-      this.dialogRef.close(this.equipominimo);
+
+      if (this.checked) {
+
+        this.equipominimo.totalMes = (parseFloat(this.equipominimo.cantidad) * parseFloat(this.equipominimo.valor)).toFixed(2);
+        this.equipominimo.total = (parseFloat(this.equipominimo.cantidad) * parseFloat(this.equipominimo.valor) * this.tiempoProyecto).toFixed(2);
+        this.dialogRef.close(this.equipominimo);   
+        
+      }else{
+
+        this.equipominimo.totalMes = (parseFloat(this.equipominimo.cantidad) * parseFloat(this.equipominimo.valor)).toFixed(2);
+        this.equipominimo.total = (parseFloat(this.equipominimo.cantidad) * parseFloat(this.equipominimo.valor)).toFixed(2);
+        this.dialogRef.close(this.equipominimo);
+
+      }
+
+      
     }
   }
 

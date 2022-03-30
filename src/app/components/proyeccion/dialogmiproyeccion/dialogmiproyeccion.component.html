@@ -137,47 +137,47 @@
             <div class="gantt">
                 <div class="row">
                     <div class="col-sm-4">
-                        <span style="font-size: 14px;color: #000000;"><b>Actividad Principal</b></span><br>
-                        <input type="text" class="form-control">
+                        <span style="font-size: 14px;color: #000000; "><b>Actividad Principal</b></span><br>
+                        <input type="text" class="form-control" [(ngModel)]="subactividad.pName">
                     </div>
                     <div class="col-sm-4">
                         <span style="font-size: 14px;color: #000000;"><b>Responsable</b></span><br>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" [(ngModel)]="subactividad.pRes">
                     </div>
                     <div class="col-sm-4">
                         <br>
-                        <button class="btn" style="float: right;">Registrar</button>
+                        <button class="btn" style="float: right;" (click)="crearSubactividades()">Crear Subactividades</button>
                     </div>
                 </div>
                 <br>
-                <div style="width: 100%; height: auto; padding: 20px;">
-                    <button class="btn" style="margin: 0;">Añadir Subactividad</button>
+                <div style="width: 100%; height: auto; padding: 20px;" *ngIf="showSubactividades">
+                    <button class="btn" style="margin: 0;" (click)="addSubactividad()">Añadir Subactividad</button>
                     <br>
                     <br>
-                    <div class="row">
+                    <div class="row" *ngFor="let actividad of listaganttactividades; let i=index;">
                         <div class="col-sm-3">
                             <span style="font-size: 14px;color: #000000;"><b>Sub Actividad</b></span><br>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="listaganttactividades[i].pName">
                         </div>
                         <div class="col-sm-3">
                             <span style="font-size: 14px;color: #000000;"><b>Responsable</b></span><br>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="listaganttactividades[i].pRes">
                         </div>
                         <div class="col-sm-2">
                             <span style="font-size: 14px;color: #000000;"><b>Fecha De Inicio</b></span><br>
-                            <input style="font-size: 16px; width: 100%; padding: 5px;" id="date" type="date">
+                            <input style="font-size: 16px; width: 100%; padding: 5px;" id="date" type="date" [(ngModel)]="listaganttactividades[i].pStart">
                         </div>
                         <div class="col-sm-2">
                             <span style="font-size: 14px;color: #000000;"><b>Fecha Fin</b></span><br>
-                            <input style="font-size: 16px; width: 100%; padding: 5px;" id="date" type="date">
+                            <input style="font-size: 16px; width: 100%; padding: 5px;" id="date" type="date" [(ngModel)]="listaganttactividades[i].pEnd">
                         </div>
                         <div class="col-sm-2">
                             <span style="font-size: 14px;color: #000000;"><b>Prioridad Actividad</b></span><br>
-                            <select style="font-size: 17px; width: 100%; padding: 5px;">
+                            <select style="font-size: 17px; width: 100%; padding: 5px;" [(ngModel)]="listaganttactividades[i].pClass">
                                 <option value="0">Prioridad</option>
-                                <option value="FACTURA">Baja</option>
-                                <option value="NOTA DE VENTA">Media</option>
-                                <option value="COMPROBANTE RETENCION">Alta</option>
+                                <option value="gtaskblue">Baja</option>
+                                <option value="gtaskyellow">Media</option>
+                                <option value="gtaskred">Alta</option>
                             </select>
                         </div>
                     </div>
