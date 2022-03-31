@@ -437,6 +437,26 @@ CREATE TABLE firmas(
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE depreciacion(
+  id_dep INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  descripcion TEXT NOT NULL,
+  fecha_compra varchar(10),
+  valor_inicial varchar(20),
+  valor_anual varchar(20),
+  id_cuentas INT,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE cuentas(
+  id_cuentas INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  descripcion INT NOT NULL,
+  porcentaje varchar(20) NOT NULL,
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
 -- consults para sacar el vslor de la lectura, corte y reconeccion por medidor....
 -- -- **************  LECTURAS  ****************
 -- cambir por la fecha en la que se va a realizar la consulta

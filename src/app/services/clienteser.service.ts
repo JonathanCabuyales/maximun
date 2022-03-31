@@ -29,7 +29,7 @@ export class ClienteserService {
   }
 
   updateCliente(cliente: ClienteI){
-    this.resultado = this.http.put(`${this.baseUrl}/clientes/clientes_update.php`, JSON.stringify(cliente));
+    this.resultado = this.http.put(  `${this.baseUrl}/clientes/clientes_update.php`, JSON.stringify(cliente));
     return this.resultado;
   }
 

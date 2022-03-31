@@ -32,6 +32,7 @@ import { PerfilusuarioComponent } from './home/perfilusuario/perfilusuario.compo
 import { ProductosserviciosComponent } from './home/productosservicios/productosservicios.component';
 import { ProyeccionComponent } from './home/proyeccion/proyeccion.component';
 import { VentasComponent } from './home/ventas/ventas.component';
+import { DepreciacionComponent } from './home/depreciacion/depreciacion.component';
 
 
 const routes: Routes = [
@@ -78,7 +79,8 @@ const routes: Routes = [
     { path: 'perfilusuario', component: PerfilusuarioComponent},
     { path: 'fondos', component: FondosComponent},
     { path: 'notas', component: NotasComponent },
-    { path: 'firmas', component: FirmasComponent }
+    { path: 'firmas', component: FirmasComponent },
+    { path: 'depreciacion', component: DepreciacionComponent}
     
   ]
 }

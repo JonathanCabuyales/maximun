@@ -113,7 +113,7 @@ export class DialogsueldoempleadoComponent implements OnInit {
     this.enablemes = false;
 
 
-    console.log(this.empleadoSueldo);
+    // console.log(this.empleadoSueldo);
 
     this.atrasousuario = {
       id_usuario: '',

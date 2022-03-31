@@ -162,6 +162,10 @@ import { NgGanttEditorModule } from 'ng-gantt'
 import { GanttChartAngularModule } from 'gantt-chart-angular';
 import { DialogeditnotaComponent } from './components/notas/dialogeditnota/dialogeditnota.component';
 
+import { DialogdepreciacionComponent } from './components/depreciacion/dialogdepreciacion/dialogdepreciacion.component';
+import { DepreciacionComponent } from './home/depreciacion/depreciacion.component';
+import { DialogcreditdepreciacionComponent } from './components/depreciacion/dialogcreditdepreciacion/dialogcreditdepreciacion.component';
+
 
 @NgModule({
   declarations: [
@@ -256,7 +260,10 @@ import { DialogeditnotaComponent } from './components/notas/dialogeditnota/dialo
     FirmasdashComponent,
     FirmasComponent,
     DialogfirmasComponent,
-    DialogeditnotaComponent
+    DialogeditnotaComponent,
+    DepreciacionComponent,
+    DialogdepreciacionComponent,
+    DialogcreditdepreciacionComponent
     ],
   imports: [
     BrowserModule,

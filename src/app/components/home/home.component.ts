@@ -75,6 +75,7 @@ export class HomeComponent implements OnInit {
 
     });
 
+    document.getElementById("btn_open").addEventListener("mouseover", this.mouseenter);
   }
 
   mouseenter() {
