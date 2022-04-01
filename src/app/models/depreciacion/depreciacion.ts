@@ -8,3 +8,14 @@ export interface DepreciacionI{
     id_cuentas:string,
     token?: string
 }
+
+// depreciacion
+//vehiculos
+//muebles y enceres
+//maquinara y equipos
+//edificios
+//terrenos
+// equipos de computo
+
+
+// tabla

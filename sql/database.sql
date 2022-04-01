@@ -448,9 +448,10 @@ CREATE TABLE depreciacion(
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE cuentas(
+CREATE TABLE cuentas_contables(
   id_cuentas INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   descripcion INT NOT NULL,
+  anios INT NOT NULL,
   porcentaje varchar(20) NOT NULL,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
